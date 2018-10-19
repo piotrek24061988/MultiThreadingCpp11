@@ -1,0 +1,1 @@
+/usr/bin/c++      CMakeFiles/6_7.dir/main.cpp.o  -o 6_7 -rdynamic -lpthread -lboost_system -lboost_thread 

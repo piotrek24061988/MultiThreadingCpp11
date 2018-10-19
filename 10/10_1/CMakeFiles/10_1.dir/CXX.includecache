@@ -1,0 +1,44 @@
+#IncludeRegexLine: ^[ 	]*#[ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/piotr/MultiThreading/10/10_1/main.cpp
+iostream
+-
+algorithm
+-
+functional
+-
+numeric
+-
+thread
+-
+vector
+-
+list
+-
+future
+-
+exception
+-
+numeric
+-
+mutex
+-
+atomic
+-
+chrono
+-
+exception
+-
+queue
+-
+condition_variable
+-
+cassert
+-
+

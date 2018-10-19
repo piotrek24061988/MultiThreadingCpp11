@@ -1,0 +1,1 @@
+/usr/bin/c++      CMakeFiles/5_15.dir/main.cpp.o  -o 5_15 -rdynamic -lpthread -lboost_system -lboost_thread 

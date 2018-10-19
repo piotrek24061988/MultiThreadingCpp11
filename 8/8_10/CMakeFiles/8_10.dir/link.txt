@@ -1,0 +1,1 @@
+/usr/bin/c++      CMakeFiles/8_10.dir/main.cpp.o  -o 8_10 -rdynamic -lpthread -lboost_system -lboost_thread -latomic 
