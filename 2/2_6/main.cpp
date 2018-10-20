@@ -12,7 +12,7 @@ struct accumulate_block
     void operator()(Iterator first, Iterator last, T & result)
     {
         result = accumulate(first, last, result);
-        cout << this_thread::get_id() << endl;
+        cout << "thread id: " << this_thread::get_id() << endl;
     }
 };
 
@@ -31,8 +31,7 @@ T parralel_accumulate(Iterator first, Iterator last, T init)
 
     const unsigned long hardware_threads = thread::hardware_concurrency();
 
-    //const unsigned long num_threads = std::min(2, max_threads);
-    const unsigned long num_threads = 10;
+    const unsigned long num_threads = min(hardware_threads != 0 ? hardware_threads : 2, max_threads);
 
     const unsigned long block_size = length / num_threads;
 
@@ -45,7 +44,6 @@ T parralel_accumulate(Iterator first, Iterator last, T init)
         Iterator block_end = block_start;
         advance(block_end, block_size);
         threads[i] = thread(accumulate_block<Iterator, T>(), block_start, block_end, ref(results[i]));
-        cout << threads[i].get_id() << endl;
         block_start = block_end;
     }
 
@@ -74,10 +72,11 @@ int main()
 
     int a = 0;
     auto start = chrono::system_clock::now();
+    cout << "thread id: " << this_thread::get_id() << endl;
     a =  accumulate(vec.begin(), vec.end(), a);
     cout << "val: "<< a << ", time: " << chrono::duration<double>(chrono::system_clock::now() - start).count()  << endl;
 
-    a = 1;
+    a = 0;
 
     start = chrono::system_clock::now();
     a = parralel_accumulate(vec.begin(), vec.end(), a);

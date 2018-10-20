@@ -5,10 +5,12 @@ using namespace std;
 class thread_guard
 {
     thread & t;
+
 public:
     explicit thread_guard(thread & t_)
     : t(t_)
     {}
+
     ~thread_guard()
     {
             if(t.joinable())
@@ -16,6 +18,7 @@ public:
                 t.join();
             }
     }
+
     thread_guard(const thread_guard &) = delete;
     thread_guard & operator=(const thread_guard &) = delete;
 };
@@ -23,6 +26,7 @@ public:
 void f()
 {
         int some_local_state = 0;
+
         thread t{[&some_local_state]()->void
                  {
                      for(int i = 0; i < 100; i++)
@@ -33,9 +37,10 @@ void f()
                              cout << endl;
                          }
                      }
-                 }
-                 };
+                 } 
+                };
         thread_guard g(t);
+
         for(int i = 0; i < 100; i++)
         {
             cout << "f()";

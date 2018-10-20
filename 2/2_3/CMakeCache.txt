@@ -18,7 +18,7 @@
 2_3_BINARY_DIR:STATIC=/home/piotr/MultiThreading/2/2_3
 
 //Value Computed by CMake
-2_3_SOURCE_DIR:STATIC=/home/piotr/MultiThreading/2/2_3/2_3
+2_3_SOURCE_DIR:STATIC=/home/piotr/MultiThreading/2/2_3
 
 //Path to a program.
 CMAKE_AR:FILEPATH=/usr/bin/ar
@@ -253,7 +253,7 @@ CMAKE_GENERATOR_PLATFORM:INTERNAL=
 CMAKE_GENERATOR_TOOLSET:INTERNAL=
 //Source directory with the top level CMakeLists.txt file for this
 // project
-CMAKE_HOME_DIRECTORY:INTERNAL=/home/piotr/MultiThreading/2/2_3/2_3
+CMAKE_HOME_DIRECTORY:INTERNAL=/home/piotr/MultiThreading/2/2_3
 //Install .so files without execute permission.
 CMAKE_INSTALL_SO_NO_EXE:INTERNAL=1
 //ADVANCED property for variable: CMAKE_LINKER

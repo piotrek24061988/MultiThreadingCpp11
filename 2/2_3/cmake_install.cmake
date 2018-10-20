@@ -1,4 +1,4 @@
-# Install script for directory: /home/piotr/MultiThreading/2/2_3/2_3
+# Install script for directory: /home/piotr/MultiThreading/2/2_3
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)

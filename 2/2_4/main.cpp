@@ -49,7 +49,6 @@ void f()
 
 int main()
 {
-    cout << "Hello World!" << endl;
     f();
     return 0;
 }

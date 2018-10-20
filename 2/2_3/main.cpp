@@ -12,11 +12,12 @@ void f(std::thread t)
 
 int main()
 {
-    f(thread([](){cout << "Hello World" << endl;}));
+    f(thread([](){cout << "Hello World 1" << endl;}));
+
     thread t([](){
-                     for(int i = 0; i < 10; i++)
+                     for(int i = 0; i < 3; i++)
                      {
-                        cout << "Hello" << endl;
+                        cout << "Hello World 2" << endl;
                       }
                   }
              );

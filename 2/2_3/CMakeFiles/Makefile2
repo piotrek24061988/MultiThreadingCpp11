@@ -54,7 +54,7 @@ RM = /usr/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/piotr/MultiThreading/2/2_3/2_3
+CMAKE_SOURCE_DIR = /home/piotr/MultiThreading/2/2_3
 
 # The top-level build directory on which CMake was run.
 CMAKE_BINARY_DIR = /home/piotr/MultiThreading/2/2_3

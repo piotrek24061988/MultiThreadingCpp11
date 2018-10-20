@@ -5,21 +5,20 @@ using namespace std;
 
 void f(int & i)
 {
-        for(int j = 0; j < 100; j++)
+        for(int j = 0; j < 5; j++)
         {
-           i++;
+           cout << ++i << endl;
         }
 }
 
-class K
+class F2
 {
 public:
     void f2(int & j)
     {
         for(int k = 0; k < 5; k++)
         {
-            cout << "fa" << endl;
-            j++;
+            cout << ++j << endl;
         }
     }
 };
@@ -27,6 +26,14 @@ public:
 void f3(unique_ptr<int> a)
 {
         cout << "a: " << *a << endl;
+}
+
+void f4(int && i)
+{
+        for(int j = 0; j < 5; j++)
+        {
+           cout << "f4: " << ++i << endl;
+        }
 }
 
 int main()
@@ -37,8 +44,8 @@ int main()
     t.join();
     cout << "k: " << k << endl;
 
-    K ka;
-    thread l(&K::f2, &ka, ref(k));
+    F2 ka;
+    thread l(&F2::f2, &ka, ref(k));
     l.join();
     cout << "k: " << k << endl;
 
@@ -50,7 +57,15 @@ int main()
     {
         cout << "after move(b): " << *b << endl;
     }
+    else
+    {
+        cout << "z thread was sucesfully moved to x thread" << endl;
+    }
 
+    int v4 = 1;
+    thread t4(f4, move(v4));
+    t4.join();
+    cout << "after f4: " << v4 << endl;
 
     return 0;
 }
