@@ -46,3 +46,38 @@ this_thread::get_id(); //Get current thread id.
 
 thread z(foo);
 c.get_id(); //Get current thread id.
+----------------------------------------------------------------------------------
+list<int> my_list;
+mutex my_mutex; //Mutex to protect my_list shared for two threads.
+
+void add_to_list(int new_value)
+{
+    my_mutex.lock();
+    my_list.push_back(new_value);
+    my_mutex.unlock();
+}
+
+bool list_contains(int value_to_find)
+{
+    my_mutex.lock();
+    bool f = find(my_list.begin(), my_list.end(), value_to_find) != my_list.end();
+    my_mutex.unlock();
+    return f;
+}
+-----------------------------------------------------------------------------------
+list<int> my_list;
+mutex my_mutex;
+
+void add_to_list(int new_value)
+{
+    lock_guard<mutex> guard(my_mutex); //Its better to use RAII lock_guard instead 
+    my_list.push_back(new_value);      //naked mutex. There is no need to remember
+    cout << "Added to list: " << new_value << endl; //about unlock. 
+}
+
+bool list_contains(int value_to_find)
+{
+    lock_guard<mutex> guard(my_mutex);
+    return find(my_list.begin(), my_list.end(), value_to_find) != my_list.end();
+}
+-----------------------------------------------------------------------------------

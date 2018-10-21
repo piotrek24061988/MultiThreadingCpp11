@@ -12,15 +12,18 @@ mutex some_mutex;
 
 void add_to_list(int new_value)
 {
-    lock_guard<mutex> guard(some_mutex);
+    some_mutex.lock();
     some_list.push_back(new_value);
+    some_mutex.unlock();
     cout << "Added to list: " << new_value << endl;
 }
 
 bool list_contains(int value_to_find)
 {
-    lock_guard<mutex> guard(some_mutex);
-    return find(some_list.begin(), some_list.end(), value_to_find) != some_list.end();
+    some_mutex.lock();
+    bool f = find(some_list.begin(), some_list.end(), value_to_find) != some_list.end();
+    some_mutex.unlock();
+    return f;
 }
 
 void f1()
@@ -49,4 +52,3 @@ int main()
     t2.join();
     return 0;
 }
-
