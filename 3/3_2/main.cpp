@@ -60,11 +60,10 @@ public:
     }
 };
 
-threadsafe_stack<int> myStack;
-void f1()
+void f1(threadsafe_stack<int> & myStack)
 {
-    static int i = 30;
-    while(i)
+    int i = 30;
+    while(i--)
     {
         try
         {
@@ -75,27 +74,29 @@ void f1()
             cout << "empty stack exception" << endl;
         }
         this_thread::sleep_for(1s);
-        i--;
     }
 }
 
-void f2()
+void f2(threadsafe_stack<int> & myStack)
 {
-    static int i = 10;
-    while(i)
+    int i = 10;
+    while(i--)
     {
         myStack.push(i);
         this_thread::sleep_for(3s);
-        i--;
     }
 }
 
 int main()
 {
-    thread t1(f1);
-    thread t2(f2);
+    threadsafe_stack<int> myStack;
+
+    thread t1(f1, ref(myStack));
+    thread t2(f2, ref(myStack));
+
     t1.join();
     t2.join();
+
     return 0;
 }
 
