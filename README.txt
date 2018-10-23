@@ -135,3 +135,17 @@ public:
         return data.empty();
     }
 };
+-----------------------------------------------------------------------------------
+struct X
+{
+    list<T> & obj;
+    mutex m;
+};
+friend void swap(X & lhs, X & rhs)
+{
+    if(&lhs == &rhs) return;
+    lock(lhs.m, rhs.m);//Lock 2 mutexes in the same tame to protect dead lock.
+    lock_guard<mutex> locka(lhs.m, adopt_lock);//Guard wont lock mutex thanks to 
+    lock_guard<mutex> lockb(rhs.m, adopt_lock);//adopt_lock arg and will just take
+    swap(lhs.obj, rhs.obj);		       //to unlock.
+}
