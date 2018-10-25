@@ -1,0 +1,24 @@
+#IncludeRegexLine: ^[ 	]*#[ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/piotr/MultiThreading/3/3_2_3/main.cpp
+iostream
+-
+memory
+-
+mutex
+-
+stack
+-
+chrono
+-
+thread
+-
+list
+-
+

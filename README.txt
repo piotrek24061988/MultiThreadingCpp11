@@ -141,11 +141,23 @@ struct X
     list<T> & obj;
     mutex m;
 };
-friend void swap(X & lhs, X & rhs)
+friend void swap1(X & lhs, X & rhs)
 {
     if(&lhs == &rhs) return;
-    lock(lhs.m, rhs.m);//Lock 2 mutexes in the same tame to protect dead lock.
-    lock_guard<mutex> locka(lhs.m, adopt_lock);//Guard wont lock mutex thanks to 
+    lock(lhs.m, rhs.m);//Lock 2 mutexes in the same time to protect dead lock.
+    lock_guard<mutex> locka(lhs.m, adopt_lock);//Guard won't lock mutex thanks to 
     lock_guard<mutex> lockb(rhs.m, adopt_lock);//adopt_lock arg and will just take
     swap(lhs.obj, rhs.obj);		       //to unlock.
 }
+
+friend void swap2(X & lhs, X & rhs)
+{
+    if(&lhs == &rhs) return;
+    unique_lock<mutex> locka(lhs.m, defer_lock);//unique_lock won't lock mutex thanks to 
+    unique_lock<mutex> lockb(rhs.m, defer_lock);//defer_lock arg and will just take to unlock.
+    lock(locka, lockb);//Lock 2 mutexes via unique_lock in the same time to protect dead lock.
+    swap(lhs.obj, rhs.obj);
+}
+-----------------------------------------------------------------------------------
+static thread_local unsigned int i; //Static instance common for one thread.
+                                    //Separated instance for differen threads.
