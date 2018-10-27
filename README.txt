@@ -159,5 +159,45 @@ friend void swap2(X & lhs, X & rhs)
     swap(lhs.obj, rhs.obj);
 }
 -----------------------------------------------------------------------------------
-static thread_local unsigned int i; //Static instance common for one thread.
-                                    //Separated instance for differen threads.
+static thread_local unsigned int i;//Static instance common for one thread.
+                                   //Separated instance for differen threads.
+-----------------------------------------------------------------------------------
+class CommSlot
+{
+    once_flag of; //Flag taking care that function provided to call_one function
+                  //is really called once.
+
+    void open(const string & s) {       //This function will be called one from
+        cout << "open() " << s << endl; //send() or recive() function.
+    }
+public:
+    void send() {
+        call_once(of, &CommSlot::open, this, "from send()"); //Call open if wasn't 
+        cout << "send()" << endl;                            //called earlier.
+    }
+    void receive() {
+        call_once(of, &CommSlot::open, this, "from receive"); //Call open if wasn't
+        cout << "receive()" << endl;                          //called earlier
+    }
+};
+-----------------------------------------------------------------------------------
+#include <boost/thread/shared_mutex.hpp>
+
+class sharedVal
+{
+    int val{0};
+    mutable  boost::shared_mutex entry_mutex; //Reader-writer mutex.
+public:
+    //Multiple function can share this mutex with shared_lock to read data.
+    int read_val() const {
+        boost::shared_lock<boost::shared_mutex> lk(entry_mutex);
+        return val;
+    }
+
+    //Only one function can own this mutex with lock_guard/unique_lock to write data.
+    void set_val(int & v) {
+        std::lock_guard<boost::shared_mutex> lk(entry_mutex);
+        val = v;
+    }
+};
+-----------------------------------------------------------------------------------

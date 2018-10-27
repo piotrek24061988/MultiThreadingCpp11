@@ -1,0 +1,3 @@
+/home/piotr/MultiThreading/3/3_8/CMakeFiles/edit_cache.dir
+/home/piotr/MultiThreading/3/3_8/CMakeFiles/3_8.dir
+/home/piotr/MultiThreading/3/3_8/CMakeFiles/rebuild_cache.dir

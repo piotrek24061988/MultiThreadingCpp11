@@ -8,42 +8,45 @@ class CommSlot
 {
     once_flag of;
 
-    void open()
+    void open(const string & s)
     {
-        cout << "open() before send() or receive()" << endl;
+        cout << "open() " << s << endl;
     }
 public:
     void send()
     {
-        call_once(of, &CommSlot::open, this);
+        call_once(of, &CommSlot::open, this, "from send()");
         cout << "send()" << endl;
     }
     void receive()
     {
-        call_once(of, &CommSlot::open, this);
+        call_once(of, &CommSlot::open, this, "from receive");
         cout << "receive()" << endl;
     }
-};
 
-CommSlot & getInstance()
-{
-    static CommSlot Cs;
-    return Cs;
-}
+    static CommSlot & getInstance()
+    {
+        static CommSlot Cs;
+        return Cs;
+    }
+
+};
 
 void f1()
 {
-    for(int i = 0; i < 10; i++)
+    for(int i = 0; i < 5; i++)
     {
-        getInstance().send();
+        CommSlot::getInstance().send();
+        this_thread::sleep_for(1s);
     }
 }
 
 void f2()
 {
-    for(int i = 0; i < 10; i++)
+    for(int i = 0; i < 5; i++)
     {
-        getInstance().receive();
+        CommSlot::getInstance().receive();
+        this_thread::sleep_for(1s);
     }
 }
 

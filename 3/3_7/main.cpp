@@ -36,9 +36,7 @@ public:
     }
 };
 
-dns_cache dC;
-
-void f1()
+void f1(dns_cache & dC)
 {
     while(dC.find_entry("home").ip == 0)
     {
@@ -48,7 +46,7 @@ void f1()
     cout << "entry found" << endl;
 }
 
-void f2()
+void f2(dns_cache & dC)
 {
     while(dC.find_entry("home").ip == 0)
     {
@@ -58,7 +56,7 @@ void f2()
     cout << "entry found2" << endl;
 }
 
-void f3()
+void f3(dns_cache & dC)
 {
     dC.update_or_add_entry("bla", dns_entry(1));
     this_thread::sleep_for(1s);
@@ -70,16 +68,16 @@ void f3()
     this_thread::sleep_for(1s);
     dC.update_or_add_entry("bla3", dns_entry(3));
     this_thread::sleep_for(1s);
-    dC.update_or_add_entry("bla4", dns_entry(4));
-    this_thread::sleep_for(1s);
     dC.update_or_add_entry("home", dns_entry(5));
 }
 
 int main()
 {
-    thread t1(f1);
-    thread t2(f2);
-    thread t3(f3);
+    dns_cache dC;
+
+    thread t1(f1, ref(dC));
+    thread t2(f2, ref(dC));
+    thread t3(f3, ref(dC));
     t1.join();
     t2.join();
     t3.join();
