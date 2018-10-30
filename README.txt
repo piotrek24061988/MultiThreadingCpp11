@@ -201,3 +201,104 @@ public:
     }
 };
 -----------------------------------------------------------------------------------
+#include <condition_variable>
+
+mutex mut;
+condition_variable data_cond; //Condition_variable from std.
+int val;
+
+void data_preparation_thread()
+{
+    for(int i = 1; i < 10; i++) {
+        this_thread::sleep_for(1s);
+        lock_guard<mutex> lk(mut);
+        val = i;		  //Do expected work.
+        data_cond.notify_one();   //When expected work done notify waiting thread.
+    }
+}
+
+void data_process_thread()
+{
+    for(int i = 1; i < 10; i++) {
+        unique_lock<mutex> lk(mut);
+        data_cond.wait(lk, [](){return !!val;}); //Wait for expected work to be done.
+        cout << "data_proces_thread1 var: " << val << endl;
+        val = 0;
+   }
+}
+-----------------------------------------------------------------------------------
+//Thread safe queue based on condition variable and std queue.
+
+template<typename T>
+class threadsafe_queue
+{
+private:
+    mutex mut;
+    queue<T> data_queue;
+    condition_variable data_cond;
+
+public:
+    threadsafe_queue()
+    {}
+
+    threadsafe_queue(threadsafe_queue const & other)
+    {
+        lock_guard<mutex> lk(other.mut);
+        data_queue = other.data_queue;
+    }
+
+    void push(T new_value)
+    {
+        std::lock_guard<mutex> lk(mut);
+        data_queue.push(new_value);
+        data_cond.notify_one();
+    }
+
+    void wait_and_pop(T& value)
+    {
+        unique_lock<mutex> lk(mut);
+        data_cond.wait(lk, [this](){return !data_queue.empty();});
+        value = data_queue.front();
+        data_queue.pop();
+    }
+
+    shared_ptr<T> wait_and_pop()
+    {
+        unique_lock<mutex> lk(mut);
+        data_cond.wait(lk, [this](){return !data_queue.empty();});
+        shared_ptr<T> res = make_shared<T>(data_queue.front());
+        data_queue.pop();
+        return res;
+    }
+
+    bool try_pop(T& value)
+    {
+        lock_guard<mutex> lk(mut);
+        if(data_queue.empty())
+        {
+            return false;
+        }
+        value = data_queue.front();
+        data_queue.pop();
+        return true;
+    }
+
+    shared_ptr<T> try_pop()
+    {
+        lock_guard<mutex> lk(mut);
+        if(data_queue.empty())
+        {
+            return shared_ptr<T>(nullptr);
+        }
+        shared_ptr<T> res = make_shared<T>(data_queue.front());
+        data_queue.pop();
+        return res;
+    }
+
+    bool empty() const
+    {
+        std::lock_guard<mutex> lk(mut);
+        return data_queue.empty();
+    }
+};
+
