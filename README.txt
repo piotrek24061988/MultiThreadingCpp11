@@ -301,4 +301,46 @@ public:
         return data_queue.empty();
     }
 };
+-----------------------------------------------------------------------------------
+//Features future and async.
 
+#include <future>
+
+int returnVal()
+{
+    int i;
+    for(i = 0; i < 4; i++)
+    {
+        cout << "returnVal i: " << i << endl;
+        this_thread::sleep_for(2s);
+    }
+    return i;
+}
+
+void doSomeWork()
+{
+    for(int i = 0; i < 4; i++)
+    {
+        cout << "doSomeWork i: " << i << endl;
+        this_thread::sleep_for(2s);
+    }
+}
+
+int main()
+{
+    future<int> the_answer = async(returnVal);//Do function in background and return 
+    doSomeWork();                             //future connected with function result.
+    cout << "ret val is: " << the_answer.get() << endl;//Wait for background function
+                                                       //and when completed return it
+                                                       //result.
+}
+
+
+future<int> the_answer = async(returnVal); //Its up to implementation if function is
+                                           //executed in background or current thread.
+future<int> the_answer = async(launch::deferred | launch::async, returnVal);//As above.
+future<int> the_answer = async(launch::deferred, returnVal);//Function executed in current
+                                                            //thread when executed
+                                                            //wait() or get() on future.
+future<int> the_answer = async(launch::async, returnVal);//Function executed in background.
+ 
