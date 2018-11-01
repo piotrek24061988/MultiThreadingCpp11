@@ -343,4 +343,31 @@ future<int> the_answer = async(launch::deferred, returnVal);//Function executed 
                                                             //thread when executed
                                                             //wait() or get() on future.
 future<int> the_answer = async(launch::async, returnVal);//Function executed in background.
+
+-----------------------------------------------------------------------------------
+
+int f1() { //Some task to be done.
+    cout << "f1" << endl;
+    this_thread::sleep_for(1s);
+    return 1;
+}
+
+void f2(packaged_task<int()> & task) {
+    cout << "f2" << endl;
+    future<int> fut = task.get_future(); //Get future of task.
+    cout << fut.get() << endl;//Wait task to be compleded by another thread and use
+}                             //this task result.
+
+void f3(packaged_task<int()> & task) {
+    cout << "f3" << endl;
+    task();//Execute overwrapped task.
+}
+
+int main() {
+    packaged_task<int()> task(f1); //Task is overwrapped by packaged_task.
+    thread t1(f2, ref(task));
+    thread t2(f3, ref(task));
+    t1.join();
+    t2.join();
+}
  
