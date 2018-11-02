@@ -58,7 +58,6 @@ void f2(future<T> & fut)
            {
                cout << e.what() << endl;
            }
-
            i++;
         }
     }

@@ -33,6 +33,5 @@ int main()
     thread t2(f3, ref(task));
     t1.join();
     t2.join();
-    return 0;
 }
 
