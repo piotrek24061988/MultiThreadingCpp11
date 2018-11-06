@@ -4,35 +4,27 @@
 #include <thread>
 using namespace std;
 
-class spinlock_mutex
-{
-    atomic_flag flag;
-
+//Basic atomic type atomic_flag used to implement spin lock
+class spinlock_mutex {
+    atomic_flag flag; //Basic atomic type with only 2 operations: clear - write (to false).
+                      //test_and_set - read current value. Modify (to true). Write.
 public:
-    spinlock_mutex()
-        : flag(ATOMIC_FLAG_INIT)
-    {}
+    spinlock_mutex() : flag(ATOMIC_FLAG_INIT) {}
 
-    void lock()
-    {
-        while(flag.test_and_set(memory_order_acquire))
-        {
-            //only for debug purpose
-            cout << "already locked, waiting" << endl;
+    void lock() {
+        while(flag.test_and_set(memory_order_acquire)) { //Read, modification, write operation.
+            cout << "already locked, waiting" << endl;   //Write to true.
             this_thread::sleep_for(1s);
         }
-            //only for debug purpose
-            cout << "already unlocked, locking"<< endl;
+        cout << "already unlocked, locking"<< endl;
     }
 
-    void unlock()
-    {
-        flag.clear(memory_order_acquire);
+    void unlock() {
+        flag.clear(memory_order_acquire);//Write operation. Write to false.
     }
 };
 
-void f1(spinlock_mutex & slm)
-{
+void f1(spinlock_mutex & slm) {
     cout << "f1 begining" << endl;
     this_thread::sleep_for(2s);
     slm.lock();
@@ -42,8 +34,7 @@ void f1(spinlock_mutex & slm)
     cout << "f1 slm unlocked" << endl;
 }
 
-void f2(spinlock_mutex & slm)
-{
+void f2(spinlock_mutex & slm) {
     cout << "f2 begining" << endl;
     this_thread::sleep_for(2s);
     slm.lock();
@@ -62,6 +53,5 @@ int main()
     thread t2(f2, ref(slm));
     t1.join();
     t2.join();
-    return 0;
 }
 
