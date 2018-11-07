@@ -567,6 +567,9 @@ list<T> parallel_quick_sort(list<T> input)
     return result;
 }
 -----------------------------------------------------------------------------------
+//For atomic type atomic_flag there are only 2 operations permitted.
+//Write operation - clear()
+//Read, modification, write operation - test_and_set()
 #include <atomic>
 using namespace std;
 
@@ -610,6 +613,73 @@ void f2(spinlock_mutex & slm) {
     cout << "f2 slm unlocked" << endl;
 }
 
+int main() {
+    spinlock_mutex slm;
+
+    thread t1(f1, ref(slm));
+    this_thread::sleep_for(1s);
+    thread t2(f2, ref(slm));
+    t1.join();
+    t2.join();
+}
+-----------------------------------------------------------------------------------
+//For atomic type atomic_flag there are only 5 operations permitted.
+//Write operation - store()
+//Read operation - load()
+//Read, modification, write operation - exchange()
+//Compare, exchange operation compare_exchange_week() and compare_exchange_strong() 
+#include <atomic>
+
+//Atomic type atomic<bool> used to implement spin lock
+class spinlock_mutex {
+    atomic<bool> flag;
+
+public:
+    spinlock_mutex() {
+        flag.store(false);//Write operation.
+        //Is this type in my implementation without internal blockads?
+        cout << "is lock free: " << flag.is_lock_free() << endl;
+    }
+
+    void lock() {
+        //Read, modification, write operation.
+        while(flag.exchange(true, memory_order_acquire)) {
+            cout << "already locked, waiting" << endl;
+            this_thread::sleep_for(1s);
+        }
+        cout << "already unlocked, locking"<< endl;
+    }
+
+    void unlock() {
+        flag.store(false);//Write operation.
+    }
+
+    bool try_lock() {
+        //Read, modification, write operation.
+        return !flag.exchange(true, memory_order_acquire);
+    }
+};
+
+void f1(spinlock_mutex & slm) {
+    cout << "f1 begining" << endl;
+    this_thread::sleep_for(2s);
+    slm.lock();
+    cout << "f1 slm locked" << endl;
+    this_thread::sleep_for(5s);
+    slm.unlock();
+    cout << "f1 slm unlocked" << endl;
+}
+
+void f2(spinlock_mutex & slm) {
+    cout << "f2 begining" << endl;
+    this_thread::sleep_for(2s);
+    slm.lock();
+    cout << "f2 slm locked" << endl;
+    this_thread::sleep_for(5s);
+    slm.unlock();
+    cout << "f2 slm unlocked" << endl;
+}
+
 int main()
 {
     spinlock_mutex slm;
@@ -620,4 +690,46 @@ int main()
     t1.join();
     t2.join();
 }
+
 -----------------------------------------------------------------------------------
+//For atomic type atomic<bool> flag; there are following compare, exchange functions
+//Function bool compare_exchange_week(bool & expected, bool new_value).
+//Function compare current atomic type value with expected. And if these values are
+//eqal set new_value. If they are not equal expected value is updated by function
+//to current value. If operation was completed succesfully return true. Otherwise 
+//return false. It could be that even if expected value was equal to current value
+//new value was not set and functioncompare_exchange_week return false because of error.
+//To be sure that writting was succesfull there is function compare_exchange_strong.
+
+int main()
+{
+    atomic<bool> b;
+    b.store(false);        //Set atomic flag to false so we expect
+    bool expected = false; //there is false.
+
+   cout << "begining, expected: " << expected << ", value: " << b.load() << endl;
+   if(b.compare_exchange_weak(expected, true))//Change value to true.
+   {   //Seting was succesfull so b = true and expected = false.
+       cout << "1 set sucessfull, expected: " << expected << ", value: " << b.load() << endl;
+   }
+   else
+   {   //Set was unsuccesfull, may happen for compare_exchange_weak
+       //so b = false, expected = false
+       cout << "1 set unsucessfull, expected: " << expected << ", value: " << b.load() << endl;
+   }
+
+   if(b.compare_exchange_strong(expected, true))
+   {
+       //If previous set was succesfull this should not happed.
+       //Otherwise set was done sucesfully this time
+       cout << "2 set sucessfull, expected: " << expected << ", value: " << b.load() << endl;
+   }
+   else
+   {
+       //If previous set was succesfull this time there was not set
+       //so expected value was updated from false to true.
+       //If previous set was unsuccesfull this won be called
+       //because strong never fail.
+       cout << "2 set unsucessfull, expected: " << expected << ", value: " << b.load() << endl;
+   }
+}

@@ -4,41 +4,36 @@
 #include <thread>
 using namespace std;
 
-void f1(atomic<bool> & b)
-{
-    bool expected = false;
-    cout << "f1 begining, expected: " << expected << endl;
-
-   if(b.compare_exchange_weak(expected, true))
-   {
-       cout << "f1 set b, expected: " << expected << endl;
-   }
-   else
-   {
-       cout << "f1 not set b, expected: " << expected << endl;
-   }
-
-   if(b.compare_exchange_weak(expected, true))
-   {
-       cout << "f1 set b, expected: " << expected << endl;
-   }
-   else
-   {
-       cout << "f1 not set b, expected: " << expected << endl;
-   }
-
-    cout << "f1 end, expected: " << expected << endl;
-}
-
 int main()
 {
     atomic<bool> b;
-    b.store(false);
+    b.store(false);        //Set atomic flag to false so we expect
+    bool expected = false; //there is false.
 
-    thread t1(f1, ref(b));
+   cout << "begining, expected: " << expected << ", value: " << b.load() << endl;
+   if(b.compare_exchange_weak(expected, true))//Change value to true.
+   {   //Seting was succesfull so b = true and expected = false.
+       cout << "1 set sucessfull, expected: " << expected << ", value: " << b.load() << endl;
+   }
+   else
+   {   //Set was unsuccesfull, may happen for compare_exchange_weak
+       //so b = false, expected = false
+       cout << "1 set unsucessfull, expected: " << expected << ", value: " << b.load() << endl;
+   }
 
-    t1.join();
-
-    return 0;
+   if(b.compare_exchange_strong(expected, true))
+   {
+       //If previous set was succesfull this should not happed.
+       //Otherwise set was done sucesfully this time
+       cout << "2 set sucessfull, expected: " << expected << ", value: " << b.load() << endl;
+   }
+   else
+   {
+       //If previous set was succesfull this time there was not set
+       //so expected value was updated from false to true.
+       //If previous set was unsuccesfull this won be called
+       //because strong never fail.
+       cout << "2 set unsucessfull, expected: " << expected << ", value: " << b.load() << endl;
+   }
 }
 
