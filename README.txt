@@ -733,3 +733,82 @@ int main()
        cout << "2 set unsucessfull, expected: " << expected << ", value: " << b.load() << endl;
    }
 }
+----------------------------------------------------------------------------------
+//Type atomic<T*> have all the same function like atomic<bool> plus
+//2 additional function fetch_add() and fetch_sub()
+int a[5] = {1, 2, 3, 4, 5};
+atomic<int*> p(a);
+cout << *p.fetch_add(2) << endl;//1
+cout << *p << endl;//3
+cout << *p.fetch_sub(1) << endl;//3
+cout << *p << endl;//2
+
+----------------------------------------------------------------------------------
+//Porzadkowanie spojne sekwencyjnie - memory_order_seq_cst. 
+//If x is set before y in one thread. Second thread always see x was set before y 
+//and never y was set before x. All thread see the same order of operations.
+
+#include <iostream>
+#include <atomic>
+#include <thread>
+using namespace std;
+
+atomic<bool> x, y, z;
+
+void write_x_then_y() {
+    x.store(true, memory_order_seq_cst); //x is set before y
+    y.store(true, memory_order_seq_cst);
+}
+
+void read_y_then_x()
+{
+    while(!y.load(memory_order_seq_cst));    //If we wait for y which is 
+    if(x.load(memory_order_seq_cst)) {      //set after x we are sure
+       z.store(true, memory_order_seq_cst); //x was also set
+    }
+}
+
+int main() {
+    x = y = z = false;
+
+    thread a(write_x_then_y);
+    thread b(read_y_then_x);
+    a.join(); b.join();
+
+    cout << "z must be 1, z = " << z.load(memory_order_seq_cst) << endl;
+}
+
+----------------------------------------------------------------------------------
+//Porzadkowanie zlagodzone - memory_order_relaxed. 
+//If x is set before y in one thread. Second thread can see x was set before y 
+//or y was set before x. There is no order synchronization between threads.
+
+#include <iostream>
+#include <atomic>
+#include <thread>
+using namespace std;
+
+atomic<bool> x, y, z;
+
+void write_x_then_y() {
+    x.store(true, memory_order_relaxed);//x is set before y.
+    y.store(true, memory_order_relaxed);
+}
+
+void read_y_then_x()
+{
+    while(!y.load(memory_order_relaxed));//This thread can see
+    if(x.load(memory_order_relaxed)) {   //y was set before x.
+       z.store(true, memory_order_relaxed);
+    }
+}
+
+int main() {
+    x = y = z = false;
+
+    thread a(write_x_then_y);
+    thread b(read_y_then_x);
+    a.join(); b.join();
+
+    cout << "z can be 1 or 0, z = " << z.load(memory_order_relaxed) << endl;
+}

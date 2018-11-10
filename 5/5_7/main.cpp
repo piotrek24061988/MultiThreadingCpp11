@@ -1,15 +1,11 @@
 #include <iostream>
 #include <atomic>
-#include <chrono>
 #include <thread>
-#include <vector>
 using namespace std;
 
-atomic<bool> x, y;
-atomic<int> z;
+atomic<bool> x, y, z;
 
-void write_x_then_y()
-{
+void write_x_then_y() {
     x.store(true, memory_order_relaxed);
     y.store(true, memory_order_relaxed);
 }
@@ -17,23 +13,17 @@ void write_x_then_y()
 void read_y_then_x()
 {
     while(!y.load(memory_order_relaxed));
-    if(x.load(memory_order_relaxed))
-    {
-        z++;
+    if(x.load(memory_order_relaxed)) {
+       z.store(true, memory_order_relaxed);
     }
 }
 
-int main()
-{
-    x = false;
-    y = false;
-    z = 0;
+int main() {
+    x = y = z = false;
 
     thread a(write_x_then_y);
     thread b(read_y_then_x);
-    a.join();
-    b.join();
-    cout << "z = 0 or 1 or 2 z: " << z.load(memory_order_seq_cst) << endl;
+    a.join(); b.join();
 
-    return 0;
+    cout << "z can be 1 or 0, z = " << z.load(memory_order_relaxed) << endl;
 }
