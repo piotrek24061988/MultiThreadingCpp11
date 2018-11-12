@@ -812,3 +812,38 @@ int main() {
 
     cout << "z can be 1 or 0, z = " << z.load(memory_order_relaxed) << endl;
 }
+
+----------------------------------------------------------------------------------
+//Porzadkowanie przez wzajemne wykluczanie
+//In this model reading operations are marked as memory_order_acquire,
+//writting operations are marked as a memory_order_release and
+//read-modification-write operations could be memory_order_acquire,
+//memory_order_release or both memory_order_acq_rel.
+//All threads are not synchronized but some pairs of threads writing and reading
+//can be synchronized.
+
+atomic<bool> x, y, z;
+
+void write_x_then_y() {
+    x.store(true, memory_order_relaxed);
+    y.store(true, memory_order_release);//Writting y is synchronized with reading y.
+}
+
+void read_y_then_x() {
+    while(!y.load(memory_order_acquire));//Reading y is synchronized with writting y.
+    if(x.load(memory_order_relaxed)) {   //so reading x always return true.
+        z.store(true, memory_order_release);
+    }
+}
+
+int main() {
+    x = y = z = false;
+
+    thread a(write_x_then_y);
+    thread b(read_y_then_x);
+    a.join();
+    b.join();
+    cout << "z = always 1: " << z.load(memory_order_acquire) << endl;
+
+    return 0;
+}

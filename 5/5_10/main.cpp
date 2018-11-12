@@ -5,35 +5,28 @@
 #include <vector>
 using namespace std;
 
-atomic<bool> x, y;
-atomic<int> z;
+atomic<bool> x, y, z;
 
-void write_x_then_y()
-{
+void write_x_then_y() {
     x.store(true, memory_order_relaxed);
     y.store(true, memory_order_release);
 }
 
-void read_y_then_x()
-{
+void read_y_then_x() {
     while(!y.load(memory_order_acquire));
-    if(x.load(memory_order_relaxed))
-    {
-        z++;
+    if(x.load(memory_order_relaxed)) {
+        z.store(true, memory_order_release);
     }
 }
 
-int main()
-{
-    x = false;
-    y = false;
-    z = 0;
+int main() {
+    x = y = z = false;
 
     thread a(write_x_then_y);
     thread b(read_y_then_x);
     a.join();
     b.join();
-    cout << "z = 1: " << z.load() << endl;
+    cout << "z = always 1: " << z.load(memory_order_acquire) << endl;
 
     return 0;
 }
