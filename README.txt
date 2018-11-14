@@ -847,3 +847,98 @@ int main() {
 
     return 0;
 }
+
+----------------------------------------------------------------------------------
+//Fences - ogrodzenia.
+
+atomic<bool> x, y, z;
+
+void write_x_then_y() {
+    x.store(true, memory_order_relaxed);//Code before fence
+    atomic_thread_fence(memory_order_release);
+    y.store(true, memory_order_relaxed);//Code after fence
+}
+
+void read_y_then_x() {
+    while(!y.load(memory_order_relaxed));//Code before fence
+    atomic_thread_fence(memory_order_acquire);
+    if(x.load(memory_order_relaxed)) {//Code after fence
+        z.store(true, memory_order_relaxed);
+    }
+}
+
+int main() {
+    x = y = z = false;
+
+    thread a(write_x_then_y);
+    thread b(read_y_then_x);
+
+    a.join(); b.join();
+
+    //Because of fence therew will be always 1.
+    cout << "z = always 1: " << z.load() << endl;
+}
+
+
+//////////////////////////////////////////////////////
+atomic<bool> x, y, z;
+
+void write_x_then_y() {
+    atomic_thread_fence(memory_order_release);
+    x.store(true, memory_order_relaxed);
+    y.store(true, memory_order_relaxed);
+}
+
+void read_y_then_x() {
+    while(!y.load(memory_order_relaxed));
+    atomic_thread_fence(memory_order_acquire);
+    if(x.load(memory_order_relaxed)) {
+        z.store(true, memory_order_relaxed);
+    }
+}
+
+int main() {
+    x = y = z = false;
+
+    thread a(write_x_then_y);
+    thread b(read_y_then_x);
+
+    a.join(); b.join();
+
+    //0 or 1 because writting x and y is not separated
+    //with fence.
+    cout << "z = 1 or 0: " << z.load() << endl;
+}
+
+///////////////////////////////
+
+bool x, z;
+atomic<bool> y;
+
+void write_x_then_y() {
+    x = true; //Code before fence
+    atomic_thread_fence(memory_order_release);
+    y.store(true, memory_order_relaxed); //Code after fence
+}
+
+void read_y_then_x() {
+    while(!y.load(memory_order_relaxed)); //Code before fence
+    atomic_thread_fence(memory_order_acquire);
+    if(x) { //Code after fence
+        z++;
+    }
+}
+
+int main() {
+    x = y = z = false;
+
+    thread a(write_x_then_y);
+    thread b(read_y_then_x);
+
+    a.join(); b.join();
+
+    //Always 1 because there are fences separating
+    //x and y write and at least one type is atomic.
+    cout << "z = always 1: " << z << endl;
+}
+----------------------------------------------------------------------------------

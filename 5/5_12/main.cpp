@@ -6,8 +6,7 @@
 #include <string>
 using namespace std;
 
-struct X
-{
+struct X {
     int i;
     string s;
 };
