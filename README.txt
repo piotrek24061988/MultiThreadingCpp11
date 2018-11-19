@@ -81,61 +81,6 @@ bool list_contains(int value_to_find)
     return find(my_list.begin(), my_list.end(), value_to_find) != my_list.end();
 }
 -----------------------------------------------------------------------------------
-//Thread safe stack based on mutex and stack.
-struct empty_stack : exception
-{
-};
-
-template <typename T>
-class threadsafe_stack
-{
-private:
-    stack<T> data;
-    mutable mutex m;
-public:
-    threadsafe_stack(){}
-    threadsafe_stack(const threadsafe_stack & other)
-    {
-        lock_guard<mutex> lock(other.m);
-        data = other.data;
-    }
-
-    threadsafe_stack & operator=(const threadsafe_stack & other ) = delete;
-
-    void push(T new_value)
-    {
-        lock_guard<mutex> lock(m);
-        data.push(new_value);
-    }
-
-    shared_ptr<T> pop()
-    {
-        lock_guard<mutex> lock(m);
-        if(data.empty())
-        {
-            throw empty_stack();
-        }
-        shared_ptr<T> const res{make_shared<T>(data.top())};
-        data.pop();
-        return res;
-    }
-    void pop(T & value)
-    {
-        lock_guard<mutex> lock(m);
-        if(data.empty())
-        {
-            throw empty_stack();
-        }
-        value = data.top();
-        data.pop();
-    }
-    bool empty() const
-    {
-        lock_guard<mutex> lock(m);
-        return data.empty();
-    }
-};
------------------------------------------------------------------------------------
 struct X
 {
     list<T> & obj;
@@ -226,81 +171,6 @@ void data_process_thread()
         val = 0;
    }
 }
------------------------------------------------------------------------------------
-//Thread safe queue based on condition variable and std queue.
-
-template<typename T>
-class threadsafe_queue
-{
-private:
-    mutex mut;
-    queue<T> data_queue;
-    condition_variable data_cond;
-
-public:
-    threadsafe_queue()
-    {}
-
-    threadsafe_queue(threadsafe_queue const & other)
-    {
-        lock_guard<mutex> lk(other.mut);
-        data_queue = other.data_queue;
-    }
-
-    void push(T new_value)
-    {
-        std::lock_guard<mutex> lk(mut);
-        data_queue.push(new_value);
-        data_cond.notify_one();
-    }
-
-    void wait_and_pop(T& value)
-    {
-        unique_lock<mutex> lk(mut);
-        data_cond.wait(lk, [this](){return !data_queue.empty();});
-        value = data_queue.front();
-        data_queue.pop();
-    }
-
-    shared_ptr<T> wait_and_pop()
-    {
-        unique_lock<mutex> lk(mut);
-        data_cond.wait(lk, [this](){return !data_queue.empty();});
-        shared_ptr<T> res = make_shared<T>(data_queue.front());
-        data_queue.pop();
-        return res;
-    }
-
-    bool try_pop(T& value)
-    {
-        lock_guard<mutex> lk(mut);
-        if(data_queue.empty())
-        {
-            return false;
-        }
-        value = data_queue.front();
-        data_queue.pop();
-        return true;
-    }
-
-    shared_ptr<T> try_pop()
-    {
-        lock_guard<mutex> lk(mut);
-        if(data_queue.empty())
-        {
-            return shared_ptr<T>(nullptr);
-        }
-        shared_ptr<T> res = make_shared<T>(data_queue.front());
-        data_queue.pop();
-        return res;
-    }
-
-    bool empty() const
-    {
-        std::lock_guard<mutex> lk(mut);
-        return data_queue.empty();
-    }
-};
 -----------------------------------------------------------------------------------
 //Features future and async.
 
@@ -942,3 +812,588 @@ int main() {
     cout << "z = always 1: " << z << endl;
 }
 ----------------------------------------------------------------------------------
+//Thread safe stack based on mutex and stack.
+struct empty_stack : exception {};
+
+template <typename T>
+class threadsafe_stack {
+private:
+    stack<T> data;
+    mutable mutex m;
+public:
+    threadsafe_stack(){}
+    threadsafe_stack(const threadsafe_stack & other) {
+        lock_guard<mutex> lock(other.m);
+        data = other.data;
+    }
+    threadsafe_stack & operator=(const threadsafe_stack & other) = delete;
+
+    void push(T new_value) {
+        lock_guard<mutex> lock(m);
+        data.push(move(new_value));
+    }
+
+    shared_ptr<T> pop() {
+        lock_guard<mutex> lock(m);
+        if(data.empty()) {
+            throw empty_stack();
+        }
+        shared_ptr<T> const res(make_shared<T>(move(data.top())));
+        data.pop();
+        return res;
+    }
+
+    void pop(T & value) {
+        lock_guard<mutex> lock(m);
+        if(data.empty()) {
+            throw empty_stack();
+        }
+        value = move(data.top());
+        data.pop();
+    }
+
+    bool empty() const {
+        lock_guard<mutex> lock(m);
+        return data.empty();
+    }
+};
+
+threadsafe_stack<int> tSs;
+atomic<bool> endf;
+
+void f1() {
+    endf = false;
+    for(auto & a : {1, 2, 3, 4, 5, 6, 7, 8 , 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19}) {
+        tSs.push(a);
+         this_thread::sleep_for(100ms);
+    }
+    this_thread::sleep_for(1s);
+    endf = true;
+}
+
+void f2() {
+    while(!endf) {
+        if(!tSs.empty()) {
+            try {
+               cout << "f2: " << *(tSs.pop()) << endl;
+            }
+            catch(...) {
+               cout << "f2: pop thrown exception" << endl;
+            }
+        }
+    }
+}
+
+void f3() {
+    while(!endf) {
+        if(!tSs.empty()) {
+            try {
+                int val;
+                tSs.pop(val);
+                cout << "f3: " << val << endl;
+            }
+            catch(...) {
+               cout << "f3: pop thrown exception" << endl;
+            }
+        }
+    }
+}
+
+void f4() {
+    while(!endf) {
+        if(!tSs.empty()) {
+            try {
+                int val;
+                tSs.pop(val);
+                cout << "f4: " << val << endl;
+            }
+            catch(...) {
+               cout << "f4: pop thrown exception" << endl;
+            }
+        }
+    }
+}
+
+int main() {
+   thread t2(f2);
+   thread t3(f3);
+   thread t4(f4);
+
+   thread t1(f1);
+
+   t1.join(); t2.join(); t3.join(); t4.join();
+}
+
+-----------------------------------------------------------------------------------
+//Thread safe queue based on condition variable and std queue.
+
+template<typename T>
+class threadsafe_queue {
+private:
+    mutable mutex mut;
+    queue<T> data_queue;
+    condition_variable data_cond;
+public:
+    threadsafe_queue(){}
+
+    void push(T new_value) {
+        lock_guard<mutex> lk(mut);
+        data_queue.push(move(new_value));
+        data_cond.notify_one();
+    }
+
+    void wait_and_pop(T & value) {
+        unique_lock<mutex> lk(mut);
+        data_cond.wait(lk, [this](){return !data_queue.empty();});
+        value = move(data_queue.front());
+        data_queue.pop();
+    }
+
+    shared_ptr<T> wait_and_pop() {
+        unique_lock<mutex> lk(mut);
+        data_cond.wait(lk, [this](){return !data_queue.empty();});
+        shared_ptr<T> res(make_shared<T>(move(data_queue.front())));
+        data_queue.pop();
+        return res;
+    }
+
+    bool try_pop(T & value) {
+        lock_guard<mutex> lk(mut);
+        if(data_queue.empty()) {
+            return false;
+        }
+        value = move(data_queue.front());
+        data_queue.pop();
+        return true;
+    }
+
+    shared_ptr<T> try_pop() {
+        lock_guard<mutex> lk(mut);
+        if(data_queue.empty()) {
+            return shared_ptr<T>();
+        }
+        shared_ptr<T> res = make_shared<T>(move(data_queue.front()));
+        data_queue.pop();
+        return res;
+    }
+
+    bool empty() const {
+        lock_guard<mutex> lk(mut);
+        return data_queue.empty();
+    }
+};
+
+threadsafe_queue<int> tSq;
+atomic<bool> endf;
+atomic<bool> endf2;
+
+void f0() {
+    endf = false;
+    for(auto & a : {-1, -2, -3, -4, -5, -6, -7, -8 ,9, -10, -11, -12, -13, -14, -15, -16, -17, -18, -19}) {
+        tSq.push(a);
+        this_thread::sleep_for(200ms);
+    }
+    endf = true;
+}
+
+void f1() {
+    endf2 = false;
+    for(auto & a : {1, 2, 3, 4, 5, 6, 7, 8 ,9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19}) {
+        tSq.push(a);
+        this_thread::sleep_for(300ms);
+    }
+    endf2 = true;
+}
+
+void f2() {
+    while(!endf || !endf2) {
+        cout << "f2: " << *(tSq.wait_and_pop()) << endl;
+    }
+}
+
+void f3() {
+    while(!endf || !endf2) {
+        int val;
+        tSq.wait_and_pop(val);
+        cout << "f3: " << val << endl;
+    }
+}
+
+void f4() {
+    while(!endf || !endf2) {
+        int val;
+        if(tSq.try_pop(val)) {
+            cout << "f4: " << val << endl;
+        }
+    }
+}
+
+void f5() {
+    while(!endf || !endf2) {
+        int val;
+        if(auto a = tSq.try_pop()) {
+            cout << "f5: " << *a << endl;
+        }
+    }
+}
+
+int main() {
+   thread t2(f2); thread t3(f3); thread t4(f4); thread t5(f5);
+   thread t0(f0); thread t1(f1);
+
+   t2.detach(); t3.detach();
+   t4.join(); t5.join();
+   t0.join(); t1.join();
+}
+----------------------------------------------------------------------------------
+//Thread safe queue based on std::queue.
+
+template<typename T>
+class threadsafe_queue {
+private:
+    mutable mutex mut;
+    queue<shared_ptr<T>> data_queue;
+    condition_variable data_cond;
+public:
+    threadsafe_queue(){}
+
+    void push(T new_value) {
+        shared_ptr<T> data = make_shared<T>(move(new_value));
+        lock_guard<mutex> lk(mut);
+        data_queue.push(data);
+        data_cond.notify_one();
+    }
+
+    void wait_and_pop(T & value) {
+        unique_lock<mutex> lk(mut);
+        data_cond.wait(lk, [this](){return !data_queue.empty();});
+        value = move(*data_queue.front());
+        data_queue.pop();
+    }
+
+    shared_ptr<T> wait_and_pop() {
+        unique_lock<mutex> lk(mut);
+        data_cond.wait(lk, [this](){return !data_queue.empty();});
+        shared_ptr<T> res = data_queue.front();
+        data_queue.pop();
+        return res;
+    }
+
+    bool try_pop(T & value) {
+        lock_guard<mutex> lk(mut);
+        if(data_queue.empty()) {
+            return false;
+        }
+        value = move(*data_queue.front());
+        data_queue.pop();
+        return true;
+    }
+
+    shared_ptr<T> try_pop() {
+        lock_guard<mutex> lk(mut);
+        if(data_queue.empty()) {
+            return shared_ptr<T>();
+        }
+        shared_ptr<T> res = data_queue.front();
+        data_queue.pop();
+        return res;
+    }
+
+    bool empty() const {
+        lock_guard<mutex> lk(mut);
+        return data_queue.empty();
+    }
+};
+
+threadsafe_queue<int> tSq;
+atomic<bool> endf;
+atomic<bool> endf2;
+
+void f0() {
+    endf = false;
+    for(auto & a : {-1, -2, -3, -4, -5, -6, -7, -8 ,9, -10, -11, -12, -13, -14, -15, -16, -17, -18, -19}) {
+        tSq.push(a);
+        this_thread::sleep_for(200ms);
+    }
+    endf = true;
+}
+
+void f1() {
+    endf2 = false;
+    for(auto & a : {1, 2, 3, 4, 5, 6, 7, 8 ,9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19}) {
+        tSq.push(a);
+        this_thread::sleep_for(300ms);
+    }
+    endf2 = true;
+}
+
+void f2() {
+    while(!endf || !endf2) {
+        cout << "f2: " << *(tSq.wait_and_pop()) << endl;
+    }
+}
+
+void f3() {
+    while(!endf || !endf2) {
+        int val;
+        tSq.wait_and_pop(val);
+        cout << "f3: " << val << endl;
+    }
+}
+
+void f4() {
+    while(!endf || !endf2) {
+        int val;
+        if(tSq.try_pop(val)) {
+            cout << "f4: " << val << endl;
+        }
+    }
+}
+
+void f5() {
+    while(!endf || !endf2) {
+        int val;
+        if(auto a = tSq.try_pop()) {
+            cout << "f5: " << *a << endl;
+        }
+    }
+}
+
+int main() {
+   thread t2(f2); thread t3(f3); thread t4(f4); thread t5(f5);
+   thread t0(f0); thread t1(f1);
+
+   t2.detach(); t3.detach();
+   t4.join(); t5.join();
+   t0.join(); t1.join();
+}
+----------------------------------------------------------------------------------
+//Thread safe queue from scratch.
+
+template<typename T>
+class queue {
+private:
+    struct node {
+        shared_ptr<T> data;
+        unique_ptr<node> next;
+    };
+
+    mutex head_mutex;
+    unique_ptr<node> head;
+
+    mutex tail_mutex;
+    node * tail;
+
+    condition_variable data_cond;
+
+    node * get_tail() {
+        lock_guard<mutex> tail_lock(tail_mutex);
+        return tail;
+    }
+
+    unique_ptr<node> pop_head() {
+        unique_ptr<node> old_head = move(head);
+        head = move(old_head->next);
+        return old_head;
+    }
+
+    unique_lock<mutex> wait_for_data() {
+        unique_lock<mutex> head_lock(head_mutex);
+        data_cond.wait(head_lock, [&](){return head.get()!=get_tail();});
+        return move(head_lock);
+    }
+
+    unique_ptr<node> wait_pop_head() {
+        unique_lock<mutex> head_lock(wait_for_data());
+        return pop_head();
+    }
+
+    unique_ptr<node> wait_pop_head(T & value) {
+        unique_lock<mutex> head_lock(wait_for_data());
+        value = move(*head->data);
+        return pop_head();
+    }
+
+    unique_ptr<node> try_pop_head() {
+        lock_guard<mutex> head_lock(head_mutex);
+        if(head.get() == get_tail()) {
+            return unique_ptr<node>();
+        }
+        return pop_head();
+    }
+
+    unique_ptr<node> try_pop_head(T & value) {
+        lock_guard<mutex> head_lock(head_mutex);
+        if(head.get() == get_tail()) {
+            return unique_ptr<node>();
+        }
+        value = move(*head->data);
+        return pop_head();
+    }
+
+public:
+    queue() : head(new node), tail(head.get()){}
+    queue(const queue & other) = delete;
+    queue & operator=(const queue & other) = delete;
+
+    shared_ptr<T> try_pop() {
+        unique_ptr<node> old_head = try_pop_head();
+        return old_head ? old_head->data : shared_ptr<T>();
+    }
+
+    bool try_pop(T & value) {
+        unique_ptr<node> old_head = try_pop_head(value);
+        return old_head;
+    }
+
+    shared_ptr<T> wait_and_pop() {
+        unique_ptr<node> const old_head = wait_pop_head();
+        return old_head->data;
+    }
+
+    void wait_and_pop(T & value) {
+        unique_ptr<node> const old_head = wait_pop_head(value);
+    }
+
+    void push(T new_value) {
+        shared_ptr<T> new_data = make_shared<T>(move(new_value));
+        unique_ptr<node> p(new node);
+        {
+            lock_guard<mutex> tail_lock(tail_mutex);
+            tail->data = new_data;
+            node * const new_tail = p.get();
+            tail->next = move(p);
+            tail = new_tail;
+        }
+        data_cond.notify_one();
+    }
+
+    void empty() {
+        lock_guard<mutex> head_lock(head_mutex);
+        return (head.get() == get_tail());
+    }
+};
+
+atomic<bool> a{false};
+atomic<bool> b{false};
+atomic<bool> c{false};
+
+void f0(queue<int> & q) {
+    for(auto & i : {-1, -2, -3, -4, -5, -6, -7, -8, -9, -10}) {
+        q.push(i);
+        this_thread::sleep_for(500ms);
+    }
+    this_thread::sleep_for(500ms);
+    a = true;
+}
+
+void f1(queue<int> & q) {
+    for(auto & i : {1, 2, 3, 4, 5, 6, 7, 8, 9, 10}) {
+        q.push(i);
+        this_thread::sleep_for(500ms);
+    }
+    this_thread::sleep_for(500ms);
+    b = true;
+}
+
+void f2(queue<int> & q) {
+    for(auto & i : {11, 12, 13, 14, 15, 16, 17, 18, 19}) {
+        q.push(i);
+        this_thread::sleep_for(500ms);
+    }
+    this_thread::sleep_for(500ms);
+    c = true;
+}
+
+void f3(queue<int> & q) {
+    while(!a || !b || !c) {
+        if(auto a = q.try_pop()) {
+            cout << "f3: " << *a << endl;
+        }
+    }
+}
+
+void f4(queue<int> & q) {
+    while(!a || !b || !c) {
+        if(auto a = q.try_pop()) {
+            cout << "f4: " << *a << endl;
+        }
+    }
+}
+
+void f5(queue<int> & q) {
+    while(!a || !b || !c) {
+            cout << "f5: " << *q.wait_and_pop() << endl;
+    }
+}
+
+void f6(queue<int> & q) {
+    while(!a || !b || !c) {
+            cout << "f6: " << *q.wait_and_pop() << endl;
+    }
+}
+
+int main()
+{
+    //thread safe queue used in one thread
+    queue<int> q;
+    if(auto a = q.try_pop()) {
+         cout << *a << endl;
+    } else {
+         cout << "no val" << endl;
+    }
+
+    q.push(1);
+    cout << *(q.try_pop()) << endl << endl;
+
+    q.push(2);
+    cout << *(q.try_pop()) << endl << endl;
+
+    q.push(3);
+    q.push(4);
+    cout << *(q.try_pop()) << endl;
+    cout << *(q.try_pop()) << endl << endl;
+
+    q.push(5);
+    q.push(6);
+    q.push(7);
+    if(auto a = q.try_pop()) {
+        cout << *a << endl;
+    } else {
+        cout << "no val" << endl;
+    }
+    if(auto a = q.try_pop()) {
+        cout << *a << endl;
+    } else {
+        cout << "no val" << endl;
+    }
+    if(auto a = q.try_pop()) {
+        cout << *a << endl;
+    } else {
+        cout << "no val" << endl;
+    }
+    if(auto a = q.try_pop()) {
+        cout << *a << endl;
+    } else {
+        cout << "no val" << endl;
+    }
+
+    cout << endl << endl << endl;
+
+    //thread safe queue used in many threads
+    thread t0(f0, ref(q));
+    thread t1(f1, ref(q));
+    thread t2(f2, ref(q));
+
+    thread t3(f3, ref(q));
+    thread t4(f4, ref(q));
+
+    thread t5(f5, ref(q));
+    thread t6(f6, ref(q));
+
+    t0.join(); t1.join(); t2.join();
+
+    t3.join(); t4.join();
+
+    t5.detach(); t6.detach();
+}

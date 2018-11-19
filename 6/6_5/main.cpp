@@ -1,112 +1,90 @@
 #include <iostream>
-#include <mutex>
-#include <atomic>
-#include <chrono>
-#include <thread>
-#include <vector>
-#include <exception>
-#include <stack>
-#include <condition_variable>
+#include <memory>
 using namespace std;
 
-/*
+//  tail (show las element of queue)                 head (show first element of queue)
+//   |                                               |
+//   V                                               V
+// node <- node <- node <- node <- node <- node <- node
+//
+//
+// empty list:
+// tail    head
+//     \  /
+//     V  V
+//     null
+//
+// one element list:
+//     tail    head
+//         \  /
+//         V  V
+// null <- node
+//
+//
+// adding element to list:
+//  tail     head
+//   |(move)  |
+//   V        V
+// |node| <- node
+//
+//
+// removing element from list:
+//  tail     head
+//   |        |(move)
+//   V        V
+//  node <- node <- |node|
 template<typename T>
-class queue
-{
+class queue {
 private:
-    struct node
-    {
-        shared_ptr<T> data;
-        unique_ptr<node> next;
-    };
-
-    unique_ptr<node> head;
-    node * tail;
-
-public:
-
-    queue() : head(new node), tail(head.get()){}
-    queue(const queue & other) = delete;
-    queue & operator=(const queue & other) = delete;
-
-    shared_ptr<T> try_pop()
-    {
-        if(head.get() == tail)
-        {
-            return shared_ptr<T>();
-        }
-        shared_ptr<T> const res(head->data);// pop node
-        unique_ptr<node> const old_head = move(head);//store old head
-        head = move(old_head->next);//head = next to old head
-        return res;// return node
-    }
-
-    void push(T new_value)
-    {
-        shared_ptr<T> new_data(make_shared<T>(move(new_value)));
-        unique_ptr<node> p(new node);
-        tail->data = new_data;
-        node * const new_tail = p.get();
-        tail->next = move(p);
-        tail = new_tail;
-    }
-};
-*/
-template<typename T>
-class queue
-{
-private:
-    struct node
-    {
+    struct node {
         T data;
-        unique_ptr<node> next;
+        unique_ptr<node> next = nullptr;
 
         node(T data_) : data(move(data_)){}
     };
 
-    unique_ptr<node> head;
-    node * tail = nullptr;
-
+    unique_ptr<node> head = nullptr;//first element of queue
+    node * tail = nullptr;//last element of queue
 public:
     queue(){}
     queue(const queue & other) = delete;
     queue & operator=(const queue & other) = delete;
 
-    void push(T new_value)
-    {
-        unique_ptr<node> p(make_unique<node>(new_value));
+    void push(T new_value) {
+        unique_ptr<node> p(make_unique<node>(move(new_value)));
         node * new_tail = p.get();
-        if(tail)
-        {
+        if(tail) { //If queue wasn't empty move tail no new node.
+            //tail->next = move(p);
             tail->next = move(p);
-        }
-        else
-        {
-            head = move(p);
+        } else {            //If queue was empty init head and
+            head = move(p); //tail with the same new node.
         }
         tail = new_tail;
     }
 
-    shared_ptr<T> try_pop()
-    {
-        if(!head)
-        {
+    shared_ptr<T> try_pop() {
+        if(!head) {
             return shared_ptr<T>();
         }
-        shared_ptr<T> const res(make_shared<T>(move(head->data)));
+        shared_ptr<T> const res(make_shared<T>(move(head->data)));//Store node to be pop.
         unique_ptr<node> const old_head = move(head);
-        head = move(old_head->next);
-        if(tail->next == head)
-        {
-            tail = nullptr;
+        head = move(old_head->next);//Move head to next node.
+        if(tail->next == head) {//If next element was null
+            tail = nullptr;     //we need to move tail to null also.
         }
         return res;
     }
 };
 
-int main()
-{
+int main() {
     queue<int> q;
+
+    if(auto a = q.try_pop()) {
+         cout << *a << endl;
+    } else {
+         cout << "no val" << endl;
+    }
+
     q.push(1);
     cout << *(q.try_pop()) << endl << endl;
 
@@ -121,42 +99,24 @@ int main()
     q.push(5);
     q.push(6);
     q.push(7);
-
-    if(auto a = q.try_pop())
-    {
+    if(auto a = q.try_pop()) {
         cout << *a << endl;
-    }
-    else
-    {
+    } else {
         cout << "no val" << endl;
     }
-
-    if(auto a = q.try_pop())
-    {
+    if(auto a = q.try_pop()) {
         cout << *a << endl;
-    }
-    else
-    {
+    } else {
         cout << "no val" << endl;
     }
-
-    if(auto a = q.try_pop())
-    {
+    if(auto a = q.try_pop()) {
         cout << *a << endl;
-    }
-    else
-    {
+    } else {
         cout << "no val" << endl;
     }
-
-    if(auto a = q.try_pop())
-    {
+    if(auto a = q.try_pop()) {
         cout << *a << endl;
-    }
-    else
-    {
+    } else {
         cout << "no val" << endl;
     }
-
-   return 0;
 }

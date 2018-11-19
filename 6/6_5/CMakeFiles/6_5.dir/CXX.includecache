@@ -9,20 +9,6 @@
 /home/piotr/MultiThreading/6/6_5/main.cpp
 iostream
 -
-mutex
--
-atomic
--
-chrono
--
-thread
--
-vector
--
-exception
--
-stack
--
-condition_variable
+memory
 -
 

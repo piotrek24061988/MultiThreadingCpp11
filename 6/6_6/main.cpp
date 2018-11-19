@@ -9,18 +9,47 @@
 #include <condition_variable>
 using namespace std;
 
+//  tail (show las element of queue)                 head (show first element of queue)
+//   |                                               |
+//   V                                               V
+// node <- node <- node <- node <- node <- node <- node
+//
+//
+// empty list:
+// tail    head
+//     \  /
+//     V  V
+//   fake_node
+//
+// one element list:
+//     tail          head
+//         \        /
+//         V        V
+// null <- node <- fake_node
+//
+//
+// adding element to list:
+//  tail     head
+//   |(move)  |
+//   V        V
+// |node| <- fake_node
+//
+//
+// removing element from list:
+//  tail     head
+//   |        |(move)
+//   V        V
+//  node <- fake_node <- |fake_node|
 template<typename T>
-class queue
-{
+class queue {
 private:
-    struct node
-    {
+    struct node {
         shared_ptr<T> data;
-        unique_ptr<node> next;
+        unique_ptr<node> next = nullptr;
     };
 
-    unique_ptr<node> head;
-    node * tail;
+    unique_ptr<node> head = nullptr;
+    node * tail = nullptr;
 
 public:
 
@@ -28,10 +57,8 @@ public:
     queue(const queue & other) = delete;
     queue & operator=(const queue & other) = delete;
 
-    shared_ptr<T> try_pop()
-    {
-        if(head.get() == tail)
-        {
+    shared_ptr<T> try_pop() {
+        if(head.get() == tail) {
             return shared_ptr<T>();
         }
         shared_ptr<T> const res(head->data);// store tmp head node data;
@@ -40,20 +67,25 @@ public:
         return res;// return tmp head node data
     }
 
-    void push(T new_value)
-    {
-        shared_ptr<T> new_data(make_shared<T>(move(new_value))); //store new data
+    void push(T new_value) {
+        shared_ptr<T> new_data(make_shared<T>(move(new_value)));
         unique_ptr<node> p(new node);
-        tail->data = new_data; // assign new data to current tail empty node
-        node * const new_tail = p.get(); // new tail will be new empty node
-        tail->next = move(p); //so tail is new empty node
-        tail = new_tail;      //so tail is new empty node
+        tail->data = new_data;
+        node * const new_tail = p.get();
+        tail->next = move(p);
+        tail = new_tail;
     }
 };
 
-int main()
-{
+int main() {
     queue<int> q;
+
+    if(auto a = q.try_pop()) {
+         cout << *a << endl;
+    } else {
+         cout << "no val" << endl;
+    }
+
     q.push(1);
     cout << *(q.try_pop()) << endl << endl;
 
@@ -68,42 +100,24 @@ int main()
     q.push(5);
     q.push(6);
     q.push(7);
-
-    if(auto a = q.try_pop())
-    {
+    if(auto a = q.try_pop()) {
         cout << *a << endl;
-    }
-    else
-    {
+    } else {
         cout << "no val" << endl;
     }
-
-    if(auto a = q.try_pop())
-    {
+    if(auto a = q.try_pop()) {
         cout << *a << endl;
-    }
-    else
-    {
+    } else {
         cout << "no val" << endl;
     }
-
-    if(auto a = q.try_pop())
-    {
+    if(auto a = q.try_pop()) {
         cout << *a << endl;
-    }
-    else
-    {
+    } else {
         cout << "no val" << endl;
     }
-
-    if(auto a = q.try_pop())
-    {
+    if(auto a = q.try_pop()) {
         cout << *a << endl;
-    }
-    else
-    {
+    } else {
         cout << "no val" << endl;
     }
-
-   return 0;
 }

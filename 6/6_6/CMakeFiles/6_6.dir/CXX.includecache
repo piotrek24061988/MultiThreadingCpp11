@@ -6,7 +6,7 @@
 
 #IncludeRegexTransform: 
 
-/home/piotr/MultiThreading/6_6/main.cpp
+/home/piotr/MultiThreading/6/6_6/main.cpp
 iostream
 -
 mutex
