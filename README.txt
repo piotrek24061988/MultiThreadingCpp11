@@ -1407,8 +1407,8 @@ class threadsafe_list {
         shared_ptr<T> data;
         unique_ptr<node> next;
 
-        node() : next() {}
-        node(T const & value) : data(make_shared<T>(value)) {}
+        node() : next(nullptr), data(nullptr) {}
+        node(T const & value) : next(nullptr), data(make_shared<T>(value)) {}
     };
 
     node head;
@@ -1417,12 +1417,14 @@ class threadsafe_list {
         threadsafe_list() {}
 
         ~threadsafe_list() {
+            //Remove each element of this list.
             remove_if([](node const &){return true;});
         }
 
         threadsafe_list(threadsafe_list const & other)=delete;
         threadsafe_list & operator=(threadsafe_list const & other)=delete;
 
+        //Add new element to list.
         void push_front(T const & value) {
             unique_ptr<node> new_node(new node(value));
             lock_guard<mutex> lk(head.m);
@@ -1430,6 +1432,7 @@ class threadsafe_list {
             head.next=move(new_node);
         }
 
+        //For each element from list execute Function.
         template<typename Function>
         void for_each(Function f) {
             node * current = &head;
@@ -1443,6 +1446,7 @@ class threadsafe_list {
             }
         }
 
+        //Return first element passing Predicate.
         template<typename Predicate>
         shared_ptr<T> find_first_if(Predicate p) {
             node * current = &head;
@@ -1459,6 +1463,8 @@ class threadsafe_list {
             return shared_ptr<T>();
         }
 
+        //Iterate over the list and remove each element
+        //passing Predicate.
         template<typename Predicate>
         void remove_if(Predicate p) {
             node * current = &head;
@@ -1478,22 +1484,27 @@ class threadsafe_list {
         }
 };
 
+//Function adding elements to list.
 void f1(threadsafe_list<int> & tl) {
     for(auto & i : {1, 2, 3, 4, 5}) {
+        cout << "f1: " << i << endl;
         tl.push_front(i);
         this_thread::sleep_for(300ms);
     }
     this_thread::sleep_for(300ms);
 }
 
+//Function adding elements to list.
 void f2(threadsafe_list<int> & tl) {
     for(auto & i : {11, 12, 13, 14, 15}) {
+        cout << "f2: " << i << endl;
         tl.push_front(i);
         this_thread::sleep_for(300ms);
     }
     this_thread::sleep_for(300ms);
 }
 
+//Function printing all elements currently stored in list.
 void f3(threadsafe_list<int> & tl) {
     for(int i = 0; i < 10; i++) {
         tl.for_each([](int & j){cout << "f3:" << j << " ";});
@@ -1502,6 +1513,8 @@ void f3(threadsafe_list<int> & tl) {
     }
 }
 
+//Function searching for value in list. Searching for
+//0 in first iteration, 1 in second iteration etc...
 void f4(threadsafe_list<int> & tl) {
     for(int i = 0; i < 10; i++) {
         auto a = tl.find_first_if([&i](int & j){return i == j;});
@@ -1514,6 +1527,8 @@ void f4(threadsafe_list<int> & tl) {
     }
 }
 
+//Function removing value from list. Removing
+//20 in first iteration, 19 i second iteration etc...
 void f5(threadsafe_list<int> & tl) {
     for(int i = 20; i > 0; i--) {
         tl.remove_if([&i](int & j){return i == j;});
@@ -1532,5 +1547,6 @@ int main() {
 
     t3.join(); t4.join(); t5.join();
 }
+
 
 
