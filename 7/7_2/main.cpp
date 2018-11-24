@@ -32,8 +32,8 @@ public:
             //but could be modified by other thread), set head to new_node.
             while(!head.compare_exchange_weak(new_node->next, new_node));
         }
-        //Version 1
-        //issues: memleak and possible exception when copying result
+        //Version 2
+        //issues: memleak
         shared_ptr<T> pop() {
             node * old_head = head.load(); //Read value from current head.
             //If head is equeal to old_head(what was requested in precious line

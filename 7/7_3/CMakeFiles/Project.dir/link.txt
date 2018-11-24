@@ -1,1 +1,0 @@
-/usr/bin/c++      CMakeFiles/Project.dir/main.cpp.o  -o Project -rdynamic -lpthread -lboost_system -lboost_thread 
