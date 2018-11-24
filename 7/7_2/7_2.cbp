@@ -8,28 +8,28 @@
       <Option virtualFolders="CMake Files\;" />
       <Build>
       <Target title="all">
-         <Option working_dir="/home/piotr/MultiThreading/7/7_2" />
+         <Option working_dir="/home/piotr/MultiThreading2/MultiThreadingCpp11/7/7_2" />
          <Option type="4" />
          <MakeCommands>
-            <Build command="/usr/bin/make -f &quot;/home/piotr/MultiThreading/7/7_2/Makefile&quot;  VERBOSE=1 all" />
-            <CompileFile command="/usr/bin/make -f &quot;/home/piotr/MultiThreading/7/7_2/Makefile&quot;  VERBOSE=1 &quot;$file&quot;" />
-            <Clean command="/usr/bin/make -f &quot;/home/piotr/MultiThreading/7/7_2/Makefile&quot;  VERBOSE=1 clean" />
-            <DistClean command="/usr/bin/make -f &quot;/home/piotr/MultiThreading/7/7_2/Makefile&quot;  VERBOSE=1 clean" />
+            <Build command="/usr/bin/make -f &quot;/home/piotr/MultiThreading2/MultiThreadingCpp11/7/7_2/Makefile&quot;  VERBOSE=1 all" />
+            <CompileFile command="/usr/bin/make -f &quot;/home/piotr/MultiThreading2/MultiThreadingCpp11/7/7_2/Makefile&quot;  VERBOSE=1 &quot;$file&quot;" />
+            <Clean command="/usr/bin/make -f &quot;/home/piotr/MultiThreading2/MultiThreadingCpp11/7/7_2/Makefile&quot;  VERBOSE=1 clean" />
+            <DistClean command="/usr/bin/make -f &quot;/home/piotr/MultiThreading2/MultiThreadingCpp11/7/7_2/Makefile&quot;  VERBOSE=1 clean" />
          </MakeCommands>
       </Target>
       <Target title="edit_cache">
-         <Option working_dir="/home/piotr/MultiThreading/7/7_2" />
+         <Option working_dir="/home/piotr/MultiThreading2/MultiThreadingCpp11/7/7_2" />
          <Option type="4" />
          <MakeCommands>
-            <Build command="/usr/bin/make -f &quot;/home/piotr/MultiThreading/7/7_2/Makefile&quot;  VERBOSE=1 edit_cache" />
-            <CompileFile command="/usr/bin/make -f &quot;/home/piotr/MultiThreading/7/7_2/Makefile&quot;  VERBOSE=1 &quot;$file&quot;" />
-            <Clean command="/usr/bin/make -f &quot;/home/piotr/MultiThreading/7/7_2/Makefile&quot;  VERBOSE=1 clean" />
-            <DistClean command="/usr/bin/make -f &quot;/home/piotr/MultiThreading/7/7_2/Makefile&quot;  VERBOSE=1 clean" />
+            <Build command="/usr/bin/make -f &quot;/home/piotr/MultiThreading2/MultiThreadingCpp11/7/7_2/Makefile&quot;  VERBOSE=1 edit_cache" />
+            <CompileFile command="/usr/bin/make -f &quot;/home/piotr/MultiThreading2/MultiThreadingCpp11/7/7_2/Makefile&quot;  VERBOSE=1 &quot;$file&quot;" />
+            <Clean command="/usr/bin/make -f &quot;/home/piotr/MultiThreading2/MultiThreadingCpp11/7/7_2/Makefile&quot;  VERBOSE=1 clean" />
+            <DistClean command="/usr/bin/make -f &quot;/home/piotr/MultiThreading2/MultiThreadingCpp11/7/7_2/Makefile&quot;  VERBOSE=1 clean" />
          </MakeCommands>
       </Target>
       <Target title="7_2">
-         <Option output="/home/piotr/MultiThreading/7/7_2/7_2" prefix_auto="0" extension_auto="0" />
-         <Option working_dir="/home/piotr/MultiThreading/7/7_2" />
+         <Option output="/home/piotr/MultiThreading2/MultiThreadingCpp11/7/7_2/7_2" prefix_auto="0" extension_auto="0" />
+         <Option working_dir="/home/piotr/MultiThreading2/MultiThreadingCpp11/7/7_2" />
          <Option object_output="./" />
          <Option type="1" />
          <Option compiler="gcc" />
@@ -44,15 +44,15 @@
             <Add directory="/usr/local/include" />
          </Compiler>
          <MakeCommands>
-            <Build command="/usr/bin/make -f &quot;/home/piotr/MultiThreading/7/7_2/Makefile&quot;  VERBOSE=1 7_2" />
-            <CompileFile command="/usr/bin/make -f &quot;/home/piotr/MultiThreading/7/7_2/Makefile&quot;  VERBOSE=1 &quot;$file&quot;" />
-            <Clean command="/usr/bin/make -f &quot;/home/piotr/MultiThreading/7/7_2/Makefile&quot;  VERBOSE=1 clean" />
-            <DistClean command="/usr/bin/make -f &quot;/home/piotr/MultiThreading/7/7_2/Makefile&quot;  VERBOSE=1 clean" />
+            <Build command="/usr/bin/make -f &quot;/home/piotr/MultiThreading2/MultiThreadingCpp11/7/7_2/Makefile&quot;  VERBOSE=1 7_2" />
+            <CompileFile command="/usr/bin/make -f &quot;/home/piotr/MultiThreading2/MultiThreadingCpp11/7/7_2/Makefile&quot;  VERBOSE=1 &quot;$file&quot;" />
+            <Clean command="/usr/bin/make -f &quot;/home/piotr/MultiThreading2/MultiThreadingCpp11/7/7_2/Makefile&quot;  VERBOSE=1 clean" />
+            <DistClean command="/usr/bin/make -f &quot;/home/piotr/MultiThreading2/MultiThreadingCpp11/7/7_2/Makefile&quot;  VERBOSE=1 clean" />
          </MakeCommands>
       </Target>
       <Target title="7_2/fast">
-         <Option output="/home/piotr/MultiThreading/7/7_2/7_2" prefix_auto="0" extension_auto="0" />
-         <Option working_dir="/home/piotr/MultiThreading/7/7_2" />
+         <Option output="/home/piotr/MultiThreading2/MultiThreadingCpp11/7/7_2/7_2" prefix_auto="0" extension_auto="0" />
+         <Option working_dir="/home/piotr/MultiThreading2/MultiThreadingCpp11/7/7_2" />
          <Option object_output="./" />
          <Option type="1" />
          <Option compiler="gcc" />
@@ -67,27 +67,27 @@
             <Add directory="/usr/local/include" />
          </Compiler>
          <MakeCommands>
-            <Build command="/usr/bin/make -f &quot;/home/piotr/MultiThreading/7/7_2/Makefile&quot;  VERBOSE=1 7_2/fast" />
-            <CompileFile command="/usr/bin/make -f &quot;/home/piotr/MultiThreading/7/7_2/Makefile&quot;  VERBOSE=1 &quot;$file&quot;" />
-            <Clean command="/usr/bin/make -f &quot;/home/piotr/MultiThreading/7/7_2/Makefile&quot;  VERBOSE=1 clean" />
-            <DistClean command="/usr/bin/make -f &quot;/home/piotr/MultiThreading/7/7_2/Makefile&quot;  VERBOSE=1 clean" />
+            <Build command="/usr/bin/make -f &quot;/home/piotr/MultiThreading2/MultiThreadingCpp11/7/7_2/Makefile&quot;  VERBOSE=1 7_2/fast" />
+            <CompileFile command="/usr/bin/make -f &quot;/home/piotr/MultiThreading2/MultiThreadingCpp11/7/7_2/Makefile&quot;  VERBOSE=1 &quot;$file&quot;" />
+            <Clean command="/usr/bin/make -f &quot;/home/piotr/MultiThreading2/MultiThreadingCpp11/7/7_2/Makefile&quot;  VERBOSE=1 clean" />
+            <DistClean command="/usr/bin/make -f &quot;/home/piotr/MultiThreading2/MultiThreadingCpp11/7/7_2/Makefile&quot;  VERBOSE=1 clean" />
          </MakeCommands>
       </Target>
       <Target title="rebuild_cache">
-         <Option working_dir="/home/piotr/MultiThreading/7/7_2" />
+         <Option working_dir="/home/piotr/MultiThreading2/MultiThreadingCpp11/7/7_2" />
          <Option type="4" />
          <MakeCommands>
-            <Build command="/usr/bin/make -f &quot;/home/piotr/MultiThreading/7/7_2/Makefile&quot;  VERBOSE=1 rebuild_cache" />
-            <CompileFile command="/usr/bin/make -f &quot;/home/piotr/MultiThreading/7/7_2/Makefile&quot;  VERBOSE=1 &quot;$file&quot;" />
-            <Clean command="/usr/bin/make -f &quot;/home/piotr/MultiThreading/7/7_2/Makefile&quot;  VERBOSE=1 clean" />
-            <DistClean command="/usr/bin/make -f &quot;/home/piotr/MultiThreading/7/7_2/Makefile&quot;  VERBOSE=1 clean" />
+            <Build command="/usr/bin/make -f &quot;/home/piotr/MultiThreading2/MultiThreadingCpp11/7/7_2/Makefile&quot;  VERBOSE=1 rebuild_cache" />
+            <CompileFile command="/usr/bin/make -f &quot;/home/piotr/MultiThreading2/MultiThreadingCpp11/7/7_2/Makefile&quot;  VERBOSE=1 &quot;$file&quot;" />
+            <Clean command="/usr/bin/make -f &quot;/home/piotr/MultiThreading2/MultiThreadingCpp11/7/7_2/Makefile&quot;  VERBOSE=1 clean" />
+            <DistClean command="/usr/bin/make -f &quot;/home/piotr/MultiThreading2/MultiThreadingCpp11/7/7_2/Makefile&quot;  VERBOSE=1 clean" />
          </MakeCommands>
       </Target>
       </Build>
-      <Unit filename="/home/piotr/MultiThreading/7/7_2/main.cpp">
+      <Unit filename="/home/piotr/MultiThreading2/MultiThreadingCpp11/7/7_2/main.cpp">
          <Option target="7_2"/>
       </Unit>
-      <Unit filename="/home/piotr/MultiThreading/7/7_2/CMakeLists.txt">
+      <Unit filename="/home/piotr/MultiThreading2/MultiThreadingCpp11/7/7_2/CMakeLists.txt">
           <Option virtualFolder="CMake Files\" />
       </Unit>
    </Project>
