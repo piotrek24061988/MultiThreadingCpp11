@@ -1,0 +1,34 @@
+#IncludeRegexLine: ^[ 	]*#[ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/piotr/MultiThreading2/MultiThreadingCpp11/7/7_2_3/main.cpp
+iostream
+-
+mutex
+-
+atomic
+-
+chrono
+-
+thread
+-
+vector
+-
+exception
+-
+stack
+-
+condition_variable
+-
+list
+-
+boost/thread/shared_mutex.hpp
+-
+algorithm
+-
+
