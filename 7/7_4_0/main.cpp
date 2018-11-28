@@ -38,7 +38,7 @@ private:
         do {
             new_counter = old_counter;
             ++new_counter.external_count;
-        } while(!head.compare_exchange_strong(old_counter, new_counter, memory_order_acquire, memory_order_relaxed));//2)Reading sync
+        } while(!head.compare_exchange_strong(old_counter, new_counter));
         old_counter.external_count = new_counter.external_count;
     }
 
@@ -55,14 +55,14 @@ public:
         counted_node_ptr new_node;     //Create new node
         new_node.ptr = new node(data); //with data and internal_count 0
         new_node.external_count = 1;   //and external_count 1
-        new_node.ptr->next = head.load(memory_order_relaxed); //Asign current head as a new_node->ptr.
+        new_node.ptr->next = head.load(); //Asign current head as a new_node->ptr.
         //Make new node as a new head. External_count 1 because head is only refference to current new node.
-        while(!head.compare_exchange_weak(new_node.ptr->next, new_node, memory_order_release, memory_order_relaxed));//1)Writing sync
+        while(!head.compare_exchange_weak(new_node.ptr->next, new_node));
     }
 
     //external_count increased, internal_count decreased
     shared_ptr<T> pop() {
-        counted_node_ptr old_head = head.load(memory_order_relaxed);//1)Read current head
+        counted_node_ptr old_head = head.load();//1)Read current head
         while(1) {
             increase_head_count(old_head);//2)Increase external_count to current head atomically.
             node * const ptr = old_head.ptr;
@@ -70,14 +70,14 @@ public:
                 return shared_ptr<T>();
             }
             //If node is not empty we can try to delete this node from stack.
-            if(head.compare_exchange_strong(old_head, ptr->next, memory_order_relaxed)) {
+            if(head.compare_exchange_strong(old_head, ptr->next)) {
                 //Current thread take over this node.
                 shared_ptr<T> res;
                 res.swap(ptr->data);
 
                 int const count_increase = old_head.external_count-2;
                 //There is no reference to node and it can be deleted.
-                if(ptr->internal_count.fetch_add(count_increase, memory_order_release) == -count_increase) {
+                if(ptr->internal_count.fetch_add(count_increase) == -count_increase) {
                     delete ptr;
                 }
                 //At the end return poped data.
@@ -85,10 +85,10 @@ public:
             //If current thread was not able to take over node it means that other thread
             //delete this node or add new node to stack.
             //We need to decrease cout of references to node that we tried to delete.
-            } else if(ptr->internal_count.fetch_add(-1, memory_order_relaxed)==1) {
+            } else if(ptr->internal_count.fetch_add(-1)==1) {
                 //If current node was the last who have reference to this node we
                 //can delete it.
-                ptr->internal_count.load(memory_order_acquire);
+                ptr->internal_count.load();
                 delete ptr;
             }
 
@@ -137,5 +137,4 @@ int main()
     t3.join(); t4.join();
     cout << endl;
 }
-
 
