@@ -10,7 +10,7 @@ The output was:
 
 Compilation of the C compiler identification source "CMakeCCompilerId.c" produced "a.out"
 
-The C compiler identification is GNU, found in "/home/piotr/MultiThreading/8/8_2/CMakeFiles/3.5.1/CompilerIdC/a.out"
+The C compiler identification is GNU, found in "/home/piotr/MultiThreading2/MultiThreadingCpp11/8/8_2/CMakeFiles/3.5.1/CompilerIdC/a.out"
 
 Compiling the CXX compiler identification source file "CMakeCXXCompilerId.cpp" succeeded.
 Compiler: /usr/bin/c++ 
@@ -23,33 +23,33 @@ The output was:
 
 Compilation of the CXX compiler identification source "CMakeCXXCompilerId.cpp" produced "a.out"
 
-The CXX compiler identification is GNU, found in "/home/piotr/MultiThreading/8/8_2/CMakeFiles/3.5.1/CompilerIdCXX/a.out"
+The CXX compiler identification is GNU, found in "/home/piotr/MultiThreading2/MultiThreadingCpp11/8/8_2/CMakeFiles/3.5.1/CompilerIdCXX/a.out"
 
 Determining if the C compiler works passed with the following output:
-Change Dir: /home/piotr/MultiThreading/8/8_2/CMakeFiles/CMakeTmp
+Change Dir: /home/piotr/MultiThreading2/MultiThreadingCpp11/8/8_2/CMakeFiles/CMakeTmp
 
-Run Build Command:"/usr/bin/make" "cmTC_ad837/fast"
-/usr/bin/make -f CMakeFiles/cmTC_ad837.dir/build.make CMakeFiles/cmTC_ad837.dir/build
-make[1]: Wejście do katalogu '/home/piotr/MultiThreading/8/8_2/CMakeFiles/CMakeTmp'
-Building C object CMakeFiles/cmTC_ad837.dir/testCCompiler.c.o
-/usr/bin/cc     -o CMakeFiles/cmTC_ad837.dir/testCCompiler.c.o   -c /home/piotr/MultiThreading/8/8_2/CMakeFiles/CMakeTmp/testCCompiler.c
-Linking C executable cmTC_ad837
-/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_ad837.dir/link.txt --verbose=1
-/usr/bin/cc       CMakeFiles/cmTC_ad837.dir/testCCompiler.c.o  -o cmTC_ad837 -rdynamic 
-make[1]: Opuszczenie katalogu '/home/piotr/MultiThreading/8/8_2/CMakeFiles/CMakeTmp'
+Run Build Command:"/usr/bin/make" "cmTC_0ed29/fast"
+/usr/bin/make -f CMakeFiles/cmTC_0ed29.dir/build.make CMakeFiles/cmTC_0ed29.dir/build
+make[1]: Wejście do katalogu '/home/piotr/MultiThreading2/MultiThreadingCpp11/8/8_2/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_0ed29.dir/testCCompiler.c.o
+/usr/bin/cc     -o CMakeFiles/cmTC_0ed29.dir/testCCompiler.c.o   -c /home/piotr/MultiThreading2/MultiThreadingCpp11/8/8_2/CMakeFiles/CMakeTmp/testCCompiler.c
+Linking C executable cmTC_0ed29
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_0ed29.dir/link.txt --verbose=1
+/usr/bin/cc       CMakeFiles/cmTC_0ed29.dir/testCCompiler.c.o  -o cmTC_0ed29 -rdynamic 
+make[1]: Opuszczenie katalogu '/home/piotr/MultiThreading2/MultiThreadingCpp11/8/8_2/CMakeFiles/CMakeTmp'
 
 
 Detecting C compiler ABI info compiled with the following output:
-Change Dir: /home/piotr/MultiThreading/8/8_2/CMakeFiles/CMakeTmp
+Change Dir: /home/piotr/MultiThreading2/MultiThreadingCpp11/8/8_2/CMakeFiles/CMakeTmp
 
-Run Build Command:"/usr/bin/make" "cmTC_9d835/fast"
-/usr/bin/make -f CMakeFiles/cmTC_9d835.dir/build.make CMakeFiles/cmTC_9d835.dir/build
-make[1]: Wejście do katalogu '/home/piotr/MultiThreading/8/8_2/CMakeFiles/CMakeTmp'
-Building C object CMakeFiles/cmTC_9d835.dir/CMakeCCompilerABI.c.o
-/usr/bin/cc     -o CMakeFiles/cmTC_9d835.dir/CMakeCCompilerABI.c.o   -c /usr/share/cmake-3.5/Modules/CMakeCCompilerABI.c
-Linking C executable cmTC_9d835
-/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_9d835.dir/link.txt --verbose=1
-/usr/bin/cc      -v CMakeFiles/cmTC_9d835.dir/CMakeCCompilerABI.c.o  -o cmTC_9d835 -rdynamic  
+Run Build Command:"/usr/bin/make" "cmTC_305d6/fast"
+/usr/bin/make -f CMakeFiles/cmTC_305d6.dir/build.make CMakeFiles/cmTC_305d6.dir/build
+make[1]: Wejście do katalogu '/home/piotr/MultiThreading2/MultiThreadingCpp11/8/8_2/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_305d6.dir/CMakeCCompilerABI.c.o
+/usr/bin/cc     -o CMakeFiles/cmTC_305d6.dir/CMakeCCompilerABI.c.o   -c /usr/share/cmake-3.5/Modules/CMakeCCompilerABI.c
+Linking C executable cmTC_305d6
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_305d6.dir/link.txt --verbose=1
+/usr/bin/cc      -v CMakeFiles/cmTC_305d6.dir/CMakeCCompilerABI.c.o  -o cmTC_305d6 -rdynamic  
 Using built-in specs.
 COLLECT_GCC=/usr/bin/cc
 COLLECT_LTO_WRAPPER=/usr/lib/gcc/x86_64-linux-gnu/6/lto-wrapper
@@ -59,24 +59,24 @@ Thread model: posix
 gcc version 6.3.0 20170519 (Ubuntu/Linaro 6.3.0-18ubuntu2~16.04) 
 COMPILER_PATH=/usr/lib/gcc/x86_64-linux-gnu/6/:/usr/lib/gcc/x86_64-linux-gnu/6/:/usr/lib/gcc/x86_64-linux-gnu/:/usr/lib/gcc/x86_64-linux-gnu/6/:/usr/lib/gcc/x86_64-linux-gnu/
 LIBRARY_PATH=/usr/lib/gcc/x86_64-linux-gnu/6/:/usr/lib/gcc/x86_64-linux-gnu/6/../../../x86_64-linux-gnu/:/usr/lib/gcc/x86_64-linux-gnu/6/../../../../lib/:/lib/x86_64-linux-gnu/:/lib/../lib/:/usr/lib/x86_64-linux-gnu/:/usr/lib/../lib/:/usr/lib/gcc/x86_64-linux-gnu/6/../../../:/lib/:/usr/lib/
-COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_9d835' '-rdynamic' '-mtune=generic' '-march=x86-64'
- /usr/lib/gcc/x86_64-linux-gnu/6/collect2 -plugin /usr/lib/gcc/x86_64-linux-gnu/6/liblto_plugin.so -plugin-opt=/usr/lib/gcc/x86_64-linux-gnu/6/lto-wrapper -plugin-opt=-fresolution=/tmp/ccaVAGWt.res -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lc -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lgcc_s --sysroot=/ --build-id --eh-frame-hdr -m elf_x86_64 --hash-style=gnu --as-needed -export-dynamic -dynamic-linker /lib64/ld-linux-x86-64.so.2 -z relro -o cmTC_9d835 /usr/lib/gcc/x86_64-linux-gnu/6/../../../x86_64-linux-gnu/crt1.o /usr/lib/gcc/x86_64-linux-gnu/6/../../../x86_64-linux-gnu/crti.o /usr/lib/gcc/x86_64-linux-gnu/6/crtbegin.o -L/usr/lib/gcc/x86_64-linux-gnu/6 -L/usr/lib/gcc/x86_64-linux-gnu/6/../../../x86_64-linux-gnu -L/usr/lib/gcc/x86_64-linux-gnu/6/../../../../lib -L/lib/x86_64-linux-gnu -L/lib/../lib -L/usr/lib/x86_64-linux-gnu -L/usr/lib/../lib -L/usr/lib/gcc/x86_64-linux-gnu/6/../../.. CMakeFiles/cmTC_9d835.dir/CMakeCCompilerABI.c.o -lgcc --as-needed -lgcc_s --no-as-needed -lc -lgcc --as-needed -lgcc_s --no-as-needed /usr/lib/gcc/x86_64-linux-gnu/6/crtend.o /usr/lib/gcc/x86_64-linux-gnu/6/../../../x86_64-linux-gnu/crtn.o
-COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_9d835' '-rdynamic' '-mtune=generic' '-march=x86-64'
-make[1]: Opuszczenie katalogu '/home/piotr/MultiThreading/8/8_2/CMakeFiles/CMakeTmp'
+COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_305d6' '-rdynamic' '-mtune=generic' '-march=x86-64'
+ /usr/lib/gcc/x86_64-linux-gnu/6/collect2 -plugin /usr/lib/gcc/x86_64-linux-gnu/6/liblto_plugin.so -plugin-opt=/usr/lib/gcc/x86_64-linux-gnu/6/lto-wrapper -plugin-opt=-fresolution=/tmp/ccnZSV9d.res -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lc -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lgcc_s --sysroot=/ --build-id --eh-frame-hdr -m elf_x86_64 --hash-style=gnu --as-needed -export-dynamic -dynamic-linker /lib64/ld-linux-x86-64.so.2 -z relro -o cmTC_305d6 /usr/lib/gcc/x86_64-linux-gnu/6/../../../x86_64-linux-gnu/crt1.o /usr/lib/gcc/x86_64-linux-gnu/6/../../../x86_64-linux-gnu/crti.o /usr/lib/gcc/x86_64-linux-gnu/6/crtbegin.o -L/usr/lib/gcc/x86_64-linux-gnu/6 -L/usr/lib/gcc/x86_64-linux-gnu/6/../../../x86_64-linux-gnu -L/usr/lib/gcc/x86_64-linux-gnu/6/../../../../lib -L/lib/x86_64-linux-gnu -L/lib/../lib -L/usr/lib/x86_64-linux-gnu -L/usr/lib/../lib -L/usr/lib/gcc/x86_64-linux-gnu/6/../../.. CMakeFiles/cmTC_305d6.dir/CMakeCCompilerABI.c.o -lgcc --as-needed -lgcc_s --no-as-needed -lc -lgcc --as-needed -lgcc_s --no-as-needed /usr/lib/gcc/x86_64-linux-gnu/6/crtend.o /usr/lib/gcc/x86_64-linux-gnu/6/../../../x86_64-linux-gnu/crtn.o
+COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_305d6' '-rdynamic' '-mtune=generic' '-march=x86-64'
+make[1]: Opuszczenie katalogu '/home/piotr/MultiThreading2/MultiThreadingCpp11/8/8_2/CMakeFiles/CMakeTmp'
 
 
 Parsed C implicit link information from above output:
   link line regex: [^( *|.*[/\])(ld|([^/\]+-)?ld|collect2)[^/\]*( |$)]
-  ignore line: [Change Dir: /home/piotr/MultiThreading/8/8_2/CMakeFiles/CMakeTmp]
+  ignore line: [Change Dir: /home/piotr/MultiThreading2/MultiThreadingCpp11/8/8_2/CMakeFiles/CMakeTmp]
   ignore line: []
-  ignore line: [Run Build Command:"/usr/bin/make" "cmTC_9d835/fast"]
-  ignore line: [/usr/bin/make -f CMakeFiles/cmTC_9d835.dir/build.make CMakeFiles/cmTC_9d835.dir/build]
-  ignore line: [make[1]: Wejście do katalogu '/home/piotr/MultiThreading/8/8_2/CMakeFiles/CMakeTmp']
-  ignore line: [Building C object CMakeFiles/cmTC_9d835.dir/CMakeCCompilerABI.c.o]
-  ignore line: [/usr/bin/cc     -o CMakeFiles/cmTC_9d835.dir/CMakeCCompilerABI.c.o   -c /usr/share/cmake-3.5/Modules/CMakeCCompilerABI.c]
-  ignore line: [Linking C executable cmTC_9d835]
-  ignore line: [/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_9d835.dir/link.txt --verbose=1]
-  ignore line: [/usr/bin/cc      -v CMakeFiles/cmTC_9d835.dir/CMakeCCompilerABI.c.o  -o cmTC_9d835 -rdynamic  ]
+  ignore line: [Run Build Command:"/usr/bin/make" "cmTC_305d6/fast"]
+  ignore line: [/usr/bin/make -f CMakeFiles/cmTC_305d6.dir/build.make CMakeFiles/cmTC_305d6.dir/build]
+  ignore line: [make[1]: Wejście do katalogu '/home/piotr/MultiThreading2/MultiThreadingCpp11/8/8_2/CMakeFiles/CMakeTmp']
+  ignore line: [Building C object CMakeFiles/cmTC_305d6.dir/CMakeCCompilerABI.c.o]
+  ignore line: [/usr/bin/cc     -o CMakeFiles/cmTC_305d6.dir/CMakeCCompilerABI.c.o   -c /usr/share/cmake-3.5/Modules/CMakeCCompilerABI.c]
+  ignore line: [Linking C executable cmTC_305d6]
+  ignore line: [/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_305d6.dir/link.txt --verbose=1]
+  ignore line: [/usr/bin/cc      -v CMakeFiles/cmTC_305d6.dir/CMakeCCompilerABI.c.o  -o cmTC_305d6 -rdynamic  ]
   ignore line: [Using built-in specs.]
   ignore line: [COLLECT_GCC=/usr/bin/cc]
   ignore line: [COLLECT_LTO_WRAPPER=/usr/lib/gcc/x86_64-linux-gnu/6/lto-wrapper]
@@ -86,13 +86,13 @@ Parsed C implicit link information from above output:
   ignore line: [gcc version 6.3.0 20170519 (Ubuntu/Linaro 6.3.0-18ubuntu2~16.04) ]
   ignore line: [COMPILER_PATH=/usr/lib/gcc/x86_64-linux-gnu/6/:/usr/lib/gcc/x86_64-linux-gnu/6/:/usr/lib/gcc/x86_64-linux-gnu/:/usr/lib/gcc/x86_64-linux-gnu/6/:/usr/lib/gcc/x86_64-linux-gnu/]
   ignore line: [LIBRARY_PATH=/usr/lib/gcc/x86_64-linux-gnu/6/:/usr/lib/gcc/x86_64-linux-gnu/6/../../../x86_64-linux-gnu/:/usr/lib/gcc/x86_64-linux-gnu/6/../../../../lib/:/lib/x86_64-linux-gnu/:/lib/../lib/:/usr/lib/x86_64-linux-gnu/:/usr/lib/../lib/:/usr/lib/gcc/x86_64-linux-gnu/6/../../../:/lib/:/usr/lib/]
-  ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_9d835' '-rdynamic' '-mtune=generic' '-march=x86-64']
-  link line: [ /usr/lib/gcc/x86_64-linux-gnu/6/collect2 -plugin /usr/lib/gcc/x86_64-linux-gnu/6/liblto_plugin.so -plugin-opt=/usr/lib/gcc/x86_64-linux-gnu/6/lto-wrapper -plugin-opt=-fresolution=/tmp/ccaVAGWt.res -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lc -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lgcc_s --sysroot=/ --build-id --eh-frame-hdr -m elf_x86_64 --hash-style=gnu --as-needed -export-dynamic -dynamic-linker /lib64/ld-linux-x86-64.so.2 -z relro -o cmTC_9d835 /usr/lib/gcc/x86_64-linux-gnu/6/../../../x86_64-linux-gnu/crt1.o /usr/lib/gcc/x86_64-linux-gnu/6/../../../x86_64-linux-gnu/crti.o /usr/lib/gcc/x86_64-linux-gnu/6/crtbegin.o -L/usr/lib/gcc/x86_64-linux-gnu/6 -L/usr/lib/gcc/x86_64-linux-gnu/6/../../../x86_64-linux-gnu -L/usr/lib/gcc/x86_64-linux-gnu/6/../../../../lib -L/lib/x86_64-linux-gnu -L/lib/../lib -L/usr/lib/x86_64-linux-gnu -L/usr/lib/../lib -L/usr/lib/gcc/x86_64-linux-gnu/6/../../.. CMakeFiles/cmTC_9d835.dir/CMakeCCompilerABI.c.o -lgcc --as-needed -lgcc_s --no-as-needed -lc -lgcc --as-needed -lgcc_s --no-as-needed /usr/lib/gcc/x86_64-linux-gnu/6/crtend.o /usr/lib/gcc/x86_64-linux-gnu/6/../../../x86_64-linux-gnu/crtn.o]
+  ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_305d6' '-rdynamic' '-mtune=generic' '-march=x86-64']
+  link line: [ /usr/lib/gcc/x86_64-linux-gnu/6/collect2 -plugin /usr/lib/gcc/x86_64-linux-gnu/6/liblto_plugin.so -plugin-opt=/usr/lib/gcc/x86_64-linux-gnu/6/lto-wrapper -plugin-opt=-fresolution=/tmp/ccnZSV9d.res -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lc -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lgcc_s --sysroot=/ --build-id --eh-frame-hdr -m elf_x86_64 --hash-style=gnu --as-needed -export-dynamic -dynamic-linker /lib64/ld-linux-x86-64.so.2 -z relro -o cmTC_305d6 /usr/lib/gcc/x86_64-linux-gnu/6/../../../x86_64-linux-gnu/crt1.o /usr/lib/gcc/x86_64-linux-gnu/6/../../../x86_64-linux-gnu/crti.o /usr/lib/gcc/x86_64-linux-gnu/6/crtbegin.o -L/usr/lib/gcc/x86_64-linux-gnu/6 -L/usr/lib/gcc/x86_64-linux-gnu/6/../../../x86_64-linux-gnu -L/usr/lib/gcc/x86_64-linux-gnu/6/../../../../lib -L/lib/x86_64-linux-gnu -L/lib/../lib -L/usr/lib/x86_64-linux-gnu -L/usr/lib/../lib -L/usr/lib/gcc/x86_64-linux-gnu/6/../../.. CMakeFiles/cmTC_305d6.dir/CMakeCCompilerABI.c.o -lgcc --as-needed -lgcc_s --no-as-needed -lc -lgcc --as-needed -lgcc_s --no-as-needed /usr/lib/gcc/x86_64-linux-gnu/6/crtend.o /usr/lib/gcc/x86_64-linux-gnu/6/../../../x86_64-linux-gnu/crtn.o]
     arg [/usr/lib/gcc/x86_64-linux-gnu/6/collect2] ==> ignore
     arg [-plugin] ==> ignore
     arg [/usr/lib/gcc/x86_64-linux-gnu/6/liblto_plugin.so] ==> ignore
     arg [-plugin-opt=/usr/lib/gcc/x86_64-linux-gnu/6/lto-wrapper] ==> ignore
-    arg [-plugin-opt=-fresolution=/tmp/ccaVAGWt.res] ==> ignore
+    arg [-plugin-opt=-fresolution=/tmp/ccnZSV9d.res] ==> ignore
     arg [-plugin-opt=-pass-through=-lgcc] ==> ignore
     arg [-plugin-opt=-pass-through=-lgcc_s] ==> ignore
     arg [-plugin-opt=-pass-through=-lc] ==> ignore
@@ -110,7 +110,7 @@ Parsed C implicit link information from above output:
     arg [/lib64/ld-linux-x86-64.so.2] ==> ignore
     arg [-zrelro] ==> ignore
     arg [-o] ==> ignore
-    arg [cmTC_9d835] ==> ignore
+    arg [cmTC_305d6] ==> ignore
     arg [/usr/lib/gcc/x86_64-linux-gnu/6/../../../x86_64-linux-gnu/crt1.o] ==> ignore
     arg [/usr/lib/gcc/x86_64-linux-gnu/6/../../../x86_64-linux-gnu/crti.o] ==> ignore
     arg [/usr/lib/gcc/x86_64-linux-gnu/6/crtbegin.o] ==> ignore
@@ -122,7 +122,7 @@ Parsed C implicit link information from above output:
     arg [-L/usr/lib/x86_64-linux-gnu] ==> dir [/usr/lib/x86_64-linux-gnu]
     arg [-L/usr/lib/../lib] ==> dir [/usr/lib/../lib]
     arg [-L/usr/lib/gcc/x86_64-linux-gnu/6/../../..] ==> dir [/usr/lib/gcc/x86_64-linux-gnu/6/../../..]
-    arg [CMakeFiles/cmTC_9d835.dir/CMakeCCompilerABI.c.o] ==> ignore
+    arg [CMakeFiles/cmTC_305d6.dir/CMakeCCompilerABI.c.o] ==> ignore
     arg [-lgcc] ==> lib [gcc]
     arg [--as-needed] ==> ignore
     arg [-lgcc_s] ==> lib [gcc_s]
@@ -154,17 +154,17 @@ Parsed C implicit link information from above output:
 
 
 Detecting C [-std=c11] compiler features compiled with the following output:
-Change Dir: /home/piotr/MultiThreading/8/8_2/CMakeFiles/CMakeTmp
+Change Dir: /home/piotr/MultiThreading2/MultiThreadingCpp11/8/8_2/CMakeFiles/CMakeTmp
 
-Run Build Command:"/usr/bin/make" "cmTC_9ce9e/fast"
-/usr/bin/make -f CMakeFiles/cmTC_9ce9e.dir/build.make CMakeFiles/cmTC_9ce9e.dir/build
-make[1]: Wejście do katalogu '/home/piotr/MultiThreading/8/8_2/CMakeFiles/CMakeTmp'
-Building C object CMakeFiles/cmTC_9ce9e.dir/feature_tests.c.o
-/usr/bin/cc    -std=c11 -o CMakeFiles/cmTC_9ce9e.dir/feature_tests.c.o   -c /home/piotr/MultiThreading/8/8_2/CMakeFiles/feature_tests.c
-Linking C executable cmTC_9ce9e
-/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_9ce9e.dir/link.txt --verbose=1
-/usr/bin/cc       CMakeFiles/cmTC_9ce9e.dir/feature_tests.c.o  -o cmTC_9ce9e -rdynamic 
-make[1]: Opuszczenie katalogu '/home/piotr/MultiThreading/8/8_2/CMakeFiles/CMakeTmp'
+Run Build Command:"/usr/bin/make" "cmTC_16730/fast"
+/usr/bin/make -f CMakeFiles/cmTC_16730.dir/build.make CMakeFiles/cmTC_16730.dir/build
+make[1]: Wejście do katalogu '/home/piotr/MultiThreading2/MultiThreadingCpp11/8/8_2/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_16730.dir/feature_tests.c.o
+/usr/bin/cc    -std=c11 -o CMakeFiles/cmTC_16730.dir/feature_tests.c.o   -c /home/piotr/MultiThreading2/MultiThreadingCpp11/8/8_2/CMakeFiles/feature_tests.c
+Linking C executable cmTC_16730
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_16730.dir/link.txt --verbose=1
+/usr/bin/cc       CMakeFiles/cmTC_16730.dir/feature_tests.c.o  -o cmTC_16730 -rdynamic 
+make[1]: Opuszczenie katalogu '/home/piotr/MultiThreading2/MultiThreadingCpp11/8/8_2/CMakeFiles/CMakeTmp'
 
 
     Feature record: C_FEATURE:1c_function_prototypes
@@ -174,17 +174,17 @@ make[1]: Opuszczenie katalogu '/home/piotr/MultiThreading/8/8_2/CMakeFiles/CMake
 
 
 Detecting C [-std=c99] compiler features compiled with the following output:
-Change Dir: /home/piotr/MultiThreading/8/8_2/CMakeFiles/CMakeTmp
+Change Dir: /home/piotr/MultiThreading2/MultiThreadingCpp11/8/8_2/CMakeFiles/CMakeTmp
 
-Run Build Command:"/usr/bin/make" "cmTC_d2372/fast"
-/usr/bin/make -f CMakeFiles/cmTC_d2372.dir/build.make CMakeFiles/cmTC_d2372.dir/build
-make[1]: Wejście do katalogu '/home/piotr/MultiThreading/8/8_2/CMakeFiles/CMakeTmp'
-Building C object CMakeFiles/cmTC_d2372.dir/feature_tests.c.o
-/usr/bin/cc    -std=c99 -o CMakeFiles/cmTC_d2372.dir/feature_tests.c.o   -c /home/piotr/MultiThreading/8/8_2/CMakeFiles/feature_tests.c
-Linking C executable cmTC_d2372
-/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_d2372.dir/link.txt --verbose=1
-/usr/bin/cc       CMakeFiles/cmTC_d2372.dir/feature_tests.c.o  -o cmTC_d2372 -rdynamic 
-make[1]: Opuszczenie katalogu '/home/piotr/MultiThreading/8/8_2/CMakeFiles/CMakeTmp'
+Run Build Command:"/usr/bin/make" "cmTC_b2f0a/fast"
+/usr/bin/make -f CMakeFiles/cmTC_b2f0a.dir/build.make CMakeFiles/cmTC_b2f0a.dir/build
+make[1]: Wejście do katalogu '/home/piotr/MultiThreading2/MultiThreadingCpp11/8/8_2/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_b2f0a.dir/feature_tests.c.o
+/usr/bin/cc    -std=c99 -o CMakeFiles/cmTC_b2f0a.dir/feature_tests.c.o   -c /home/piotr/MultiThreading2/MultiThreadingCpp11/8/8_2/CMakeFiles/feature_tests.c
+Linking C executable cmTC_b2f0a
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_b2f0a.dir/link.txt --verbose=1
+/usr/bin/cc       CMakeFiles/cmTC_b2f0a.dir/feature_tests.c.o  -o cmTC_b2f0a -rdynamic 
+make[1]: Opuszczenie katalogu '/home/piotr/MultiThreading2/MultiThreadingCpp11/8/8_2/CMakeFiles/CMakeTmp'
 
 
     Feature record: C_FEATURE:1c_function_prototypes
@@ -194,17 +194,17 @@ make[1]: Opuszczenie katalogu '/home/piotr/MultiThreading/8/8_2/CMakeFiles/CMake
 
 
 Detecting C [-std=c90] compiler features compiled with the following output:
-Change Dir: /home/piotr/MultiThreading/8/8_2/CMakeFiles/CMakeTmp
+Change Dir: /home/piotr/MultiThreading2/MultiThreadingCpp11/8/8_2/CMakeFiles/CMakeTmp
 
-Run Build Command:"/usr/bin/make" "cmTC_df5e0/fast"
-/usr/bin/make -f CMakeFiles/cmTC_df5e0.dir/build.make CMakeFiles/cmTC_df5e0.dir/build
-make[1]: Wejście do katalogu '/home/piotr/MultiThreading/8/8_2/CMakeFiles/CMakeTmp'
-Building C object CMakeFiles/cmTC_df5e0.dir/feature_tests.c.o
-/usr/bin/cc    -std=c90 -o CMakeFiles/cmTC_df5e0.dir/feature_tests.c.o   -c /home/piotr/MultiThreading/8/8_2/CMakeFiles/feature_tests.c
-Linking C executable cmTC_df5e0
-/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_df5e0.dir/link.txt --verbose=1
-/usr/bin/cc       CMakeFiles/cmTC_df5e0.dir/feature_tests.c.o  -o cmTC_df5e0 -rdynamic 
-make[1]: Opuszczenie katalogu '/home/piotr/MultiThreading/8/8_2/CMakeFiles/CMakeTmp'
+Run Build Command:"/usr/bin/make" "cmTC_5c872/fast"
+/usr/bin/make -f CMakeFiles/cmTC_5c872.dir/build.make CMakeFiles/cmTC_5c872.dir/build
+make[1]: Wejście do katalogu '/home/piotr/MultiThreading2/MultiThreadingCpp11/8/8_2/CMakeFiles/CMakeTmp'
+Building C object CMakeFiles/cmTC_5c872.dir/feature_tests.c.o
+/usr/bin/cc    -std=c90 -o CMakeFiles/cmTC_5c872.dir/feature_tests.c.o   -c /home/piotr/MultiThreading2/MultiThreadingCpp11/8/8_2/CMakeFiles/feature_tests.c
+Linking C executable cmTC_5c872
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_5c872.dir/link.txt --verbose=1
+/usr/bin/cc       CMakeFiles/cmTC_5c872.dir/feature_tests.c.o  -o cmTC_5c872 -rdynamic 
+make[1]: Opuszczenie katalogu '/home/piotr/MultiThreading2/MultiThreadingCpp11/8/8_2/CMakeFiles/CMakeTmp'
 
 
     Feature record: C_FEATURE:1c_function_prototypes
@@ -212,30 +212,30 @@ make[1]: Opuszczenie katalogu '/home/piotr/MultiThreading/8/8_2/CMakeFiles/CMake
     Feature record: C_FEATURE:0c_static_assert
     Feature record: C_FEATURE:0c_variadic_macros
 Determining if the CXX compiler works passed with the following output:
-Change Dir: /home/piotr/MultiThreading/8/8_2/CMakeFiles/CMakeTmp
+Change Dir: /home/piotr/MultiThreading2/MultiThreadingCpp11/8/8_2/CMakeFiles/CMakeTmp
 
-Run Build Command:"/usr/bin/make" "cmTC_36d0a/fast"
-/usr/bin/make -f CMakeFiles/cmTC_36d0a.dir/build.make CMakeFiles/cmTC_36d0a.dir/build
-make[1]: Wejście do katalogu '/home/piotr/MultiThreading/8/8_2/CMakeFiles/CMakeTmp'
-Building CXX object CMakeFiles/cmTC_36d0a.dir/testCXXCompiler.cxx.o
-/usr/bin/c++      -o CMakeFiles/cmTC_36d0a.dir/testCXXCompiler.cxx.o -c /home/piotr/MultiThreading/8/8_2/CMakeFiles/CMakeTmp/testCXXCompiler.cxx
-Linking CXX executable cmTC_36d0a
-/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_36d0a.dir/link.txt --verbose=1
-/usr/bin/c++        CMakeFiles/cmTC_36d0a.dir/testCXXCompiler.cxx.o  -o cmTC_36d0a -rdynamic 
-make[1]: Opuszczenie katalogu '/home/piotr/MultiThreading/8/8_2/CMakeFiles/CMakeTmp'
+Run Build Command:"/usr/bin/make" "cmTC_87940/fast"
+/usr/bin/make -f CMakeFiles/cmTC_87940.dir/build.make CMakeFiles/cmTC_87940.dir/build
+make[1]: Wejście do katalogu '/home/piotr/MultiThreading2/MultiThreadingCpp11/8/8_2/CMakeFiles/CMakeTmp'
+Building CXX object CMakeFiles/cmTC_87940.dir/testCXXCompiler.cxx.o
+/usr/bin/c++      -o CMakeFiles/cmTC_87940.dir/testCXXCompiler.cxx.o -c /home/piotr/MultiThreading2/MultiThreadingCpp11/8/8_2/CMakeFiles/CMakeTmp/testCXXCompiler.cxx
+Linking CXX executable cmTC_87940
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_87940.dir/link.txt --verbose=1
+/usr/bin/c++        CMakeFiles/cmTC_87940.dir/testCXXCompiler.cxx.o  -o cmTC_87940 -rdynamic 
+make[1]: Opuszczenie katalogu '/home/piotr/MultiThreading2/MultiThreadingCpp11/8/8_2/CMakeFiles/CMakeTmp'
 
 
 Detecting CXX compiler ABI info compiled with the following output:
-Change Dir: /home/piotr/MultiThreading/8/8_2/CMakeFiles/CMakeTmp
+Change Dir: /home/piotr/MultiThreading2/MultiThreadingCpp11/8/8_2/CMakeFiles/CMakeTmp
 
-Run Build Command:"/usr/bin/make" "cmTC_6eefb/fast"
-/usr/bin/make -f CMakeFiles/cmTC_6eefb.dir/build.make CMakeFiles/cmTC_6eefb.dir/build
-make[1]: Wejście do katalogu '/home/piotr/MultiThreading/8/8_2/CMakeFiles/CMakeTmp'
-Building CXX object CMakeFiles/cmTC_6eefb.dir/CMakeCXXCompilerABI.cpp.o
-/usr/bin/c++      -o CMakeFiles/cmTC_6eefb.dir/CMakeCXXCompilerABI.cpp.o -c /usr/share/cmake-3.5/Modules/CMakeCXXCompilerABI.cpp
-Linking CXX executable cmTC_6eefb
-/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_6eefb.dir/link.txt --verbose=1
-/usr/bin/c++       -v CMakeFiles/cmTC_6eefb.dir/CMakeCXXCompilerABI.cpp.o  -o cmTC_6eefb -rdynamic  
+Run Build Command:"/usr/bin/make" "cmTC_593f9/fast"
+/usr/bin/make -f CMakeFiles/cmTC_593f9.dir/build.make CMakeFiles/cmTC_593f9.dir/build
+make[1]: Wejście do katalogu '/home/piotr/MultiThreading2/MultiThreadingCpp11/8/8_2/CMakeFiles/CMakeTmp'
+Building CXX object CMakeFiles/cmTC_593f9.dir/CMakeCXXCompilerABI.cpp.o
+/usr/bin/c++      -o CMakeFiles/cmTC_593f9.dir/CMakeCXXCompilerABI.cpp.o -c /usr/share/cmake-3.5/Modules/CMakeCXXCompilerABI.cpp
+Linking CXX executable cmTC_593f9
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_593f9.dir/link.txt --verbose=1
+/usr/bin/c++       -v CMakeFiles/cmTC_593f9.dir/CMakeCXXCompilerABI.cpp.o  -o cmTC_593f9 -rdynamic  
 Using built-in specs.
 COLLECT_GCC=/usr/bin/c++
 COLLECT_LTO_WRAPPER=/usr/lib/gcc/x86_64-linux-gnu/6/lto-wrapper
@@ -245,24 +245,24 @@ Thread model: posix
 gcc version 6.3.0 20170519 (Ubuntu/Linaro 6.3.0-18ubuntu2~16.04) 
 COMPILER_PATH=/usr/lib/gcc/x86_64-linux-gnu/6/:/usr/lib/gcc/x86_64-linux-gnu/6/:/usr/lib/gcc/x86_64-linux-gnu/:/usr/lib/gcc/x86_64-linux-gnu/6/:/usr/lib/gcc/x86_64-linux-gnu/
 LIBRARY_PATH=/usr/lib/gcc/x86_64-linux-gnu/6/:/usr/lib/gcc/x86_64-linux-gnu/6/../../../x86_64-linux-gnu/:/usr/lib/gcc/x86_64-linux-gnu/6/../../../../lib/:/lib/x86_64-linux-gnu/:/lib/../lib/:/usr/lib/x86_64-linux-gnu/:/usr/lib/../lib/:/usr/lib/gcc/x86_64-linux-gnu/6/../../../:/lib/:/usr/lib/
-COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_6eefb' '-rdynamic' '-shared-libgcc' '-mtune=generic' '-march=x86-64'
- /usr/lib/gcc/x86_64-linux-gnu/6/collect2 -plugin /usr/lib/gcc/x86_64-linux-gnu/6/liblto_plugin.so -plugin-opt=/usr/lib/gcc/x86_64-linux-gnu/6/lto-wrapper -plugin-opt=-fresolution=/tmp/ccRUPHLY.res -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lc -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc --sysroot=/ --build-id --eh-frame-hdr -m elf_x86_64 --hash-style=gnu --as-needed -export-dynamic -dynamic-linker /lib64/ld-linux-x86-64.so.2 -z relro -o cmTC_6eefb /usr/lib/gcc/x86_64-linux-gnu/6/../../../x86_64-linux-gnu/crt1.o /usr/lib/gcc/x86_64-linux-gnu/6/../../../x86_64-linux-gnu/crti.o /usr/lib/gcc/x86_64-linux-gnu/6/crtbegin.o -L/usr/lib/gcc/x86_64-linux-gnu/6 -L/usr/lib/gcc/x86_64-linux-gnu/6/../../../x86_64-linux-gnu -L/usr/lib/gcc/x86_64-linux-gnu/6/../../../../lib -L/lib/x86_64-linux-gnu -L/lib/../lib -L/usr/lib/x86_64-linux-gnu -L/usr/lib/../lib -L/usr/lib/gcc/x86_64-linux-gnu/6/../../.. CMakeFiles/cmTC_6eefb.dir/CMakeCXXCompilerABI.cpp.o -lstdc++ -lm -lgcc_s -lgcc -lc -lgcc_s -lgcc /usr/lib/gcc/x86_64-linux-gnu/6/crtend.o /usr/lib/gcc/x86_64-linux-gnu/6/../../../x86_64-linux-gnu/crtn.o
-COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_6eefb' '-rdynamic' '-shared-libgcc' '-mtune=generic' '-march=x86-64'
-make[1]: Opuszczenie katalogu '/home/piotr/MultiThreading/8/8_2/CMakeFiles/CMakeTmp'
+COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_593f9' '-rdynamic' '-shared-libgcc' '-mtune=generic' '-march=x86-64'
+ /usr/lib/gcc/x86_64-linux-gnu/6/collect2 -plugin /usr/lib/gcc/x86_64-linux-gnu/6/liblto_plugin.so -plugin-opt=/usr/lib/gcc/x86_64-linux-gnu/6/lto-wrapper -plugin-opt=-fresolution=/tmp/cc5qbQgX.res -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lc -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc --sysroot=/ --build-id --eh-frame-hdr -m elf_x86_64 --hash-style=gnu --as-needed -export-dynamic -dynamic-linker /lib64/ld-linux-x86-64.so.2 -z relro -o cmTC_593f9 /usr/lib/gcc/x86_64-linux-gnu/6/../../../x86_64-linux-gnu/crt1.o /usr/lib/gcc/x86_64-linux-gnu/6/../../../x86_64-linux-gnu/crti.o /usr/lib/gcc/x86_64-linux-gnu/6/crtbegin.o -L/usr/lib/gcc/x86_64-linux-gnu/6 -L/usr/lib/gcc/x86_64-linux-gnu/6/../../../x86_64-linux-gnu -L/usr/lib/gcc/x86_64-linux-gnu/6/../../../../lib -L/lib/x86_64-linux-gnu -L/lib/../lib -L/usr/lib/x86_64-linux-gnu -L/usr/lib/../lib -L/usr/lib/gcc/x86_64-linux-gnu/6/../../.. CMakeFiles/cmTC_593f9.dir/CMakeCXXCompilerABI.cpp.o -lstdc++ -lm -lgcc_s -lgcc -lc -lgcc_s -lgcc /usr/lib/gcc/x86_64-linux-gnu/6/crtend.o /usr/lib/gcc/x86_64-linux-gnu/6/../../../x86_64-linux-gnu/crtn.o
+COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_593f9' '-rdynamic' '-shared-libgcc' '-mtune=generic' '-march=x86-64'
+make[1]: Opuszczenie katalogu '/home/piotr/MultiThreading2/MultiThreadingCpp11/8/8_2/CMakeFiles/CMakeTmp'
 
 
 Parsed CXX implicit link information from above output:
   link line regex: [^( *|.*[/\])(ld|([^/\]+-)?ld|collect2)[^/\]*( |$)]
-  ignore line: [Change Dir: /home/piotr/MultiThreading/8/8_2/CMakeFiles/CMakeTmp]
+  ignore line: [Change Dir: /home/piotr/MultiThreading2/MultiThreadingCpp11/8/8_2/CMakeFiles/CMakeTmp]
   ignore line: []
-  ignore line: [Run Build Command:"/usr/bin/make" "cmTC_6eefb/fast"]
-  ignore line: [/usr/bin/make -f CMakeFiles/cmTC_6eefb.dir/build.make CMakeFiles/cmTC_6eefb.dir/build]
-  ignore line: [make[1]: Wejście do katalogu '/home/piotr/MultiThreading/8/8_2/CMakeFiles/CMakeTmp']
-  ignore line: [Building CXX object CMakeFiles/cmTC_6eefb.dir/CMakeCXXCompilerABI.cpp.o]
-  ignore line: [/usr/bin/c++      -o CMakeFiles/cmTC_6eefb.dir/CMakeCXXCompilerABI.cpp.o -c /usr/share/cmake-3.5/Modules/CMakeCXXCompilerABI.cpp]
-  ignore line: [Linking CXX executable cmTC_6eefb]
-  ignore line: [/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_6eefb.dir/link.txt --verbose=1]
-  ignore line: [/usr/bin/c++       -v CMakeFiles/cmTC_6eefb.dir/CMakeCXXCompilerABI.cpp.o  -o cmTC_6eefb -rdynamic  ]
+  ignore line: [Run Build Command:"/usr/bin/make" "cmTC_593f9/fast"]
+  ignore line: [/usr/bin/make -f CMakeFiles/cmTC_593f9.dir/build.make CMakeFiles/cmTC_593f9.dir/build]
+  ignore line: [make[1]: Wejście do katalogu '/home/piotr/MultiThreading2/MultiThreadingCpp11/8/8_2/CMakeFiles/CMakeTmp']
+  ignore line: [Building CXX object CMakeFiles/cmTC_593f9.dir/CMakeCXXCompilerABI.cpp.o]
+  ignore line: [/usr/bin/c++      -o CMakeFiles/cmTC_593f9.dir/CMakeCXXCompilerABI.cpp.o -c /usr/share/cmake-3.5/Modules/CMakeCXXCompilerABI.cpp]
+  ignore line: [Linking CXX executable cmTC_593f9]
+  ignore line: [/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_593f9.dir/link.txt --verbose=1]
+  ignore line: [/usr/bin/c++       -v CMakeFiles/cmTC_593f9.dir/CMakeCXXCompilerABI.cpp.o  -o cmTC_593f9 -rdynamic  ]
   ignore line: [Using built-in specs.]
   ignore line: [COLLECT_GCC=/usr/bin/c++]
   ignore line: [COLLECT_LTO_WRAPPER=/usr/lib/gcc/x86_64-linux-gnu/6/lto-wrapper]
@@ -272,13 +272,13 @@ Parsed CXX implicit link information from above output:
   ignore line: [gcc version 6.3.0 20170519 (Ubuntu/Linaro 6.3.0-18ubuntu2~16.04) ]
   ignore line: [COMPILER_PATH=/usr/lib/gcc/x86_64-linux-gnu/6/:/usr/lib/gcc/x86_64-linux-gnu/6/:/usr/lib/gcc/x86_64-linux-gnu/:/usr/lib/gcc/x86_64-linux-gnu/6/:/usr/lib/gcc/x86_64-linux-gnu/]
   ignore line: [LIBRARY_PATH=/usr/lib/gcc/x86_64-linux-gnu/6/:/usr/lib/gcc/x86_64-linux-gnu/6/../../../x86_64-linux-gnu/:/usr/lib/gcc/x86_64-linux-gnu/6/../../../../lib/:/lib/x86_64-linux-gnu/:/lib/../lib/:/usr/lib/x86_64-linux-gnu/:/usr/lib/../lib/:/usr/lib/gcc/x86_64-linux-gnu/6/../../../:/lib/:/usr/lib/]
-  ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_6eefb' '-rdynamic' '-shared-libgcc' '-mtune=generic' '-march=x86-64']
-  link line: [ /usr/lib/gcc/x86_64-linux-gnu/6/collect2 -plugin /usr/lib/gcc/x86_64-linux-gnu/6/liblto_plugin.so -plugin-opt=/usr/lib/gcc/x86_64-linux-gnu/6/lto-wrapper -plugin-opt=-fresolution=/tmp/ccRUPHLY.res -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lc -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc --sysroot=/ --build-id --eh-frame-hdr -m elf_x86_64 --hash-style=gnu --as-needed -export-dynamic -dynamic-linker /lib64/ld-linux-x86-64.so.2 -z relro -o cmTC_6eefb /usr/lib/gcc/x86_64-linux-gnu/6/../../../x86_64-linux-gnu/crt1.o /usr/lib/gcc/x86_64-linux-gnu/6/../../../x86_64-linux-gnu/crti.o /usr/lib/gcc/x86_64-linux-gnu/6/crtbegin.o -L/usr/lib/gcc/x86_64-linux-gnu/6 -L/usr/lib/gcc/x86_64-linux-gnu/6/../../../x86_64-linux-gnu -L/usr/lib/gcc/x86_64-linux-gnu/6/../../../../lib -L/lib/x86_64-linux-gnu -L/lib/../lib -L/usr/lib/x86_64-linux-gnu -L/usr/lib/../lib -L/usr/lib/gcc/x86_64-linux-gnu/6/../../.. CMakeFiles/cmTC_6eefb.dir/CMakeCXXCompilerABI.cpp.o -lstdc++ -lm -lgcc_s -lgcc -lc -lgcc_s -lgcc /usr/lib/gcc/x86_64-linux-gnu/6/crtend.o /usr/lib/gcc/x86_64-linux-gnu/6/../../../x86_64-linux-gnu/crtn.o]
+  ignore line: [COLLECT_GCC_OPTIONS='-v' '-o' 'cmTC_593f9' '-rdynamic' '-shared-libgcc' '-mtune=generic' '-march=x86-64']
+  link line: [ /usr/lib/gcc/x86_64-linux-gnu/6/collect2 -plugin /usr/lib/gcc/x86_64-linux-gnu/6/liblto_plugin.so -plugin-opt=/usr/lib/gcc/x86_64-linux-gnu/6/lto-wrapper -plugin-opt=-fresolution=/tmp/cc5qbQgX.res -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc -plugin-opt=-pass-through=-lc -plugin-opt=-pass-through=-lgcc_s -plugin-opt=-pass-through=-lgcc --sysroot=/ --build-id --eh-frame-hdr -m elf_x86_64 --hash-style=gnu --as-needed -export-dynamic -dynamic-linker /lib64/ld-linux-x86-64.so.2 -z relro -o cmTC_593f9 /usr/lib/gcc/x86_64-linux-gnu/6/../../../x86_64-linux-gnu/crt1.o /usr/lib/gcc/x86_64-linux-gnu/6/../../../x86_64-linux-gnu/crti.o /usr/lib/gcc/x86_64-linux-gnu/6/crtbegin.o -L/usr/lib/gcc/x86_64-linux-gnu/6 -L/usr/lib/gcc/x86_64-linux-gnu/6/../../../x86_64-linux-gnu -L/usr/lib/gcc/x86_64-linux-gnu/6/../../../../lib -L/lib/x86_64-linux-gnu -L/lib/../lib -L/usr/lib/x86_64-linux-gnu -L/usr/lib/../lib -L/usr/lib/gcc/x86_64-linux-gnu/6/../../.. CMakeFiles/cmTC_593f9.dir/CMakeCXXCompilerABI.cpp.o -lstdc++ -lm -lgcc_s -lgcc -lc -lgcc_s -lgcc /usr/lib/gcc/x86_64-linux-gnu/6/crtend.o /usr/lib/gcc/x86_64-linux-gnu/6/../../../x86_64-linux-gnu/crtn.o]
     arg [/usr/lib/gcc/x86_64-linux-gnu/6/collect2] ==> ignore
     arg [-plugin] ==> ignore
     arg [/usr/lib/gcc/x86_64-linux-gnu/6/liblto_plugin.so] ==> ignore
     arg [-plugin-opt=/usr/lib/gcc/x86_64-linux-gnu/6/lto-wrapper] ==> ignore
-    arg [-plugin-opt=-fresolution=/tmp/ccRUPHLY.res] ==> ignore
+    arg [-plugin-opt=-fresolution=/tmp/cc5qbQgX.res] ==> ignore
     arg [-plugin-opt=-pass-through=-lgcc_s] ==> ignore
     arg [-plugin-opt=-pass-through=-lgcc] ==> ignore
     arg [-plugin-opt=-pass-through=-lc] ==> ignore
@@ -296,7 +296,7 @@ Parsed CXX implicit link information from above output:
     arg [/lib64/ld-linux-x86-64.so.2] ==> ignore
     arg [-zrelro] ==> ignore
     arg [-o] ==> ignore
-    arg [cmTC_6eefb] ==> ignore
+    arg [cmTC_593f9] ==> ignore
     arg [/usr/lib/gcc/x86_64-linux-gnu/6/../../../x86_64-linux-gnu/crt1.o] ==> ignore
     arg [/usr/lib/gcc/x86_64-linux-gnu/6/../../../x86_64-linux-gnu/crti.o] ==> ignore
     arg [/usr/lib/gcc/x86_64-linux-gnu/6/crtbegin.o] ==> ignore
@@ -308,7 +308,7 @@ Parsed CXX implicit link information from above output:
     arg [-L/usr/lib/x86_64-linux-gnu] ==> dir [/usr/lib/x86_64-linux-gnu]
     arg [-L/usr/lib/../lib] ==> dir [/usr/lib/../lib]
     arg [-L/usr/lib/gcc/x86_64-linux-gnu/6/../../..] ==> dir [/usr/lib/gcc/x86_64-linux-gnu/6/../../..]
-    arg [CMakeFiles/cmTC_6eefb.dir/CMakeCXXCompilerABI.cpp.o] ==> ignore
+    arg [CMakeFiles/cmTC_593f9.dir/CMakeCXXCompilerABI.cpp.o] ==> ignore
     arg [-lstdc++] ==> lib [stdc++]
     arg [-lm] ==> lib [m]
     arg [-lgcc_s] ==> lib [gcc_s]
@@ -338,17 +338,17 @@ Parsed CXX implicit link information from above output:
 
 
 Detecting CXX [-std=c++14] compiler features compiled with the following output:
-Change Dir: /home/piotr/MultiThreading/8/8_2/CMakeFiles/CMakeTmp
+Change Dir: /home/piotr/MultiThreading2/MultiThreadingCpp11/8/8_2/CMakeFiles/CMakeTmp
 
-Run Build Command:"/usr/bin/make" "cmTC_050f0/fast"
-/usr/bin/make -f CMakeFiles/cmTC_050f0.dir/build.make CMakeFiles/cmTC_050f0.dir/build
-make[1]: Wejście do katalogu '/home/piotr/MultiThreading/8/8_2/CMakeFiles/CMakeTmp'
-Building CXX object CMakeFiles/cmTC_050f0.dir/feature_tests.cxx.o
-/usr/bin/c++     -std=c++14 -o CMakeFiles/cmTC_050f0.dir/feature_tests.cxx.o -c /home/piotr/MultiThreading/8/8_2/CMakeFiles/feature_tests.cxx
-Linking CXX executable cmTC_050f0
-/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_050f0.dir/link.txt --verbose=1
-/usr/bin/c++        CMakeFiles/cmTC_050f0.dir/feature_tests.cxx.o  -o cmTC_050f0 -rdynamic 
-make[1]: Opuszczenie katalogu '/home/piotr/MultiThreading/8/8_2/CMakeFiles/CMakeTmp'
+Run Build Command:"/usr/bin/make" "cmTC_82b1c/fast"
+/usr/bin/make -f CMakeFiles/cmTC_82b1c.dir/build.make CMakeFiles/cmTC_82b1c.dir/build
+make[1]: Wejście do katalogu '/home/piotr/MultiThreading2/MultiThreadingCpp11/8/8_2/CMakeFiles/CMakeTmp'
+Building CXX object CMakeFiles/cmTC_82b1c.dir/feature_tests.cxx.o
+/usr/bin/c++     -std=c++14 -o CMakeFiles/cmTC_82b1c.dir/feature_tests.cxx.o -c /home/piotr/MultiThreading2/MultiThreadingCpp11/8/8_2/CMakeFiles/feature_tests.cxx
+Linking CXX executable cmTC_82b1c
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_82b1c.dir/link.txt --verbose=1
+/usr/bin/c++        CMakeFiles/cmTC_82b1c.dir/feature_tests.cxx.o  -o cmTC_82b1c -rdynamic 
+make[1]: Opuszczenie katalogu '/home/piotr/MultiThreading2/MultiThreadingCpp11/8/8_2/CMakeFiles/CMakeTmp'
 
 
     Feature record: CXX_FEATURE:1cxx_aggregate_default_initializers
@@ -411,17 +411,17 @@ make[1]: Opuszczenie katalogu '/home/piotr/MultiThreading/8/8_2/CMakeFiles/CMake
 
 
 Detecting CXX [-std=c++11] compiler features compiled with the following output:
-Change Dir: /home/piotr/MultiThreading/8/8_2/CMakeFiles/CMakeTmp
+Change Dir: /home/piotr/MultiThreading2/MultiThreadingCpp11/8/8_2/CMakeFiles/CMakeTmp
 
-Run Build Command:"/usr/bin/make" "cmTC_59cb1/fast"
-/usr/bin/make -f CMakeFiles/cmTC_59cb1.dir/build.make CMakeFiles/cmTC_59cb1.dir/build
-make[1]: Wejście do katalogu '/home/piotr/MultiThreading/8/8_2/CMakeFiles/CMakeTmp'
-Building CXX object CMakeFiles/cmTC_59cb1.dir/feature_tests.cxx.o
-/usr/bin/c++     -std=c++11 -o CMakeFiles/cmTC_59cb1.dir/feature_tests.cxx.o -c /home/piotr/MultiThreading/8/8_2/CMakeFiles/feature_tests.cxx
-Linking CXX executable cmTC_59cb1
-/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_59cb1.dir/link.txt --verbose=1
-/usr/bin/c++        CMakeFiles/cmTC_59cb1.dir/feature_tests.cxx.o  -o cmTC_59cb1 -rdynamic 
-make[1]: Opuszczenie katalogu '/home/piotr/MultiThreading/8/8_2/CMakeFiles/CMakeTmp'
+Run Build Command:"/usr/bin/make" "cmTC_5222f/fast"
+/usr/bin/make -f CMakeFiles/cmTC_5222f.dir/build.make CMakeFiles/cmTC_5222f.dir/build
+make[1]: Wejście do katalogu '/home/piotr/MultiThreading2/MultiThreadingCpp11/8/8_2/CMakeFiles/CMakeTmp'
+Building CXX object CMakeFiles/cmTC_5222f.dir/feature_tests.cxx.o
+/usr/bin/c++     -std=c++11 -o CMakeFiles/cmTC_5222f.dir/feature_tests.cxx.o -c /home/piotr/MultiThreading2/MultiThreadingCpp11/8/8_2/CMakeFiles/feature_tests.cxx
+Linking CXX executable cmTC_5222f
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_5222f.dir/link.txt --verbose=1
+/usr/bin/c++        CMakeFiles/cmTC_5222f.dir/feature_tests.cxx.o  -o cmTC_5222f -rdynamic 
+make[1]: Opuszczenie katalogu '/home/piotr/MultiThreading2/MultiThreadingCpp11/8/8_2/CMakeFiles/CMakeTmp'
 
 
     Feature record: CXX_FEATURE:0cxx_aggregate_default_initializers
@@ -484,17 +484,17 @@ make[1]: Opuszczenie katalogu '/home/piotr/MultiThreading/8/8_2/CMakeFiles/CMake
 
 
 Detecting CXX [-std=c++98] compiler features compiled with the following output:
-Change Dir: /home/piotr/MultiThreading/8/8_2/CMakeFiles/CMakeTmp
+Change Dir: /home/piotr/MultiThreading2/MultiThreadingCpp11/8/8_2/CMakeFiles/CMakeTmp
 
-Run Build Command:"/usr/bin/make" "cmTC_deb3f/fast"
-/usr/bin/make -f CMakeFiles/cmTC_deb3f.dir/build.make CMakeFiles/cmTC_deb3f.dir/build
-make[1]: Wejście do katalogu '/home/piotr/MultiThreading/8/8_2/CMakeFiles/CMakeTmp'
-Building CXX object CMakeFiles/cmTC_deb3f.dir/feature_tests.cxx.o
-/usr/bin/c++     -std=c++98 -o CMakeFiles/cmTC_deb3f.dir/feature_tests.cxx.o -c /home/piotr/MultiThreading/8/8_2/CMakeFiles/feature_tests.cxx
-Linking CXX executable cmTC_deb3f
-/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_deb3f.dir/link.txt --verbose=1
-/usr/bin/c++        CMakeFiles/cmTC_deb3f.dir/feature_tests.cxx.o  -o cmTC_deb3f -rdynamic 
-make[1]: Opuszczenie katalogu '/home/piotr/MultiThreading/8/8_2/CMakeFiles/CMakeTmp'
+Run Build Command:"/usr/bin/make" "cmTC_f8171/fast"
+/usr/bin/make -f CMakeFiles/cmTC_f8171.dir/build.make CMakeFiles/cmTC_f8171.dir/build
+make[1]: Wejście do katalogu '/home/piotr/MultiThreading2/MultiThreadingCpp11/8/8_2/CMakeFiles/CMakeTmp'
+Building CXX object CMakeFiles/cmTC_f8171.dir/feature_tests.cxx.o
+/usr/bin/c++     -std=c++98 -o CMakeFiles/cmTC_f8171.dir/feature_tests.cxx.o -c /home/piotr/MultiThreading2/MultiThreadingCpp11/8/8_2/CMakeFiles/feature_tests.cxx
+Linking CXX executable cmTC_f8171
+/usr/bin/cmake -E cmake_link_script CMakeFiles/cmTC_f8171.dir/link.txt --verbose=1
+/usr/bin/c++        CMakeFiles/cmTC_f8171.dir/feature_tests.cxx.o  -o cmTC_f8171 -rdynamic 
+make[1]: Opuszczenie katalogu '/home/piotr/MultiThreading2/MultiThreadingCpp11/8/8_2/CMakeFiles/CMakeTmp'
 
 
     Feature record: CXX_FEATURE:0cxx_aggregate_default_initializers

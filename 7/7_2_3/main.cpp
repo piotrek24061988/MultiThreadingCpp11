@@ -129,6 +129,10 @@ private:
 
         atomic<node*> head {nullptr};
 public:
+        lock_free_stack() {
+             cout << "is shared_ptr atomic without locks? " << boolalpha << atomic_is_lock_free(&head) << endl;
+        }
+
         void push(const T & data) {
             node * new_node = new node(data); //Create new node
             new_node->next = head.load(); //Set new node next to current head.

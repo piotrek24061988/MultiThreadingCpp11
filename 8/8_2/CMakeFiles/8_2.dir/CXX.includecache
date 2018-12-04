@@ -6,7 +6,7 @@
 
 #IncludeRegexTransform: 
 
-/home/piotr/MultiThreading/8/8_2/main.cpp
+/home/piotr/MultiThreading2/MultiThreadingCpp11/8/8_2/main.cpp
 iostream
 -
 thread
