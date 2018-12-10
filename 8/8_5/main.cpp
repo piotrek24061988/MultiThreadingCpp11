@@ -8,37 +8,34 @@
 using namespace std;
 
 template<typename Iterator, typename T>
-T parallel_accumulate(Iterator first, Iterator last, T init)
-{
+T parallel_accumulate(Iterator first, Iterator last, T init) {
+
     unsigned long const length = distance(first, last);
 
-    if(!length)
-    {
+    if(!length) {
         return init;
     }
 
     unsigned long const min_per_thread = 25;
     unsigned long const max_threads = (length+min_per_thread-1)/min_per_thread;
-
     unsigned long const hardware_threads = thread::hardware_concurrency();
-
     unsigned long const num_threads = min(hardware_threads != 0 ? hardware_threads : 2, max_threads);
     unsigned long const block_size = length / num_threads;
 
-    //vector<T> results(num_threads);
     vector<future<T>> futures(num_threads - 1);
     vector<thread> threads(num_threads - 1);
-    auto accumulate_block = [](Iterator first, Iterator last){ return std::accumulate(first,last,T());};
+    auto accumulate_block = [](Iterator first, Iterator last) {
+        cout << "thread_id: " << this_thread::get_id() << endl;
+        return std::accumulate(first,last,T());
+    };
 
     Iterator block_start = first;
     T last_result;
-    try
-    {
-        for(unsigned long i = 0; i < (num_threads - 1); ++i)
-        {
+    try {
+        for(unsigned long i = 0; i < (num_threads - 1); ++i) {
             Iterator block_end = block_start;
             advance(block_end, block_size);
-            std::packaged_task<T(Iterator,Iterator)> task(accumulate_block);
+            std::packaged_task<T(Iterator, Iterator)> task(accumulate_block);
             futures[i] = task.get_future();
             threads[i] = thread(move(task), block_start, block_end);
             block_start = block_end;
@@ -46,25 +43,20 @@ T parallel_accumulate(Iterator first, Iterator last, T init)
         last_result = accumulate_block(block_start, last);
 
         for_each(threads.begin(), threads.end(), mem_fn(&thread::join));
-    }
-    catch(...)
-    {
-        for(unsigned long i = 0; i < (num_threads - 1); ++i)
-        {
-            if(threads[i].joinable())
-            {
+    } catch(...) {
+        for(unsigned long i = 0; i < (num_threads - 1); ++i) {
+            if(threads[i].joinable()) {
                 threads[i].join();
-            }
+            }    
         }
+        throw;
     }
 
     T result = init;
-    for(unsigned long i = 0; i < (num_threads - 1); ++i)
-    {
+    for(unsigned long i = 0; i < (num_threads - 1); ++i) {
         result += futures[i].get();
     }
-    result += last_result;
-    return result;
+    return (result += last_result);
 }
 
 int main()

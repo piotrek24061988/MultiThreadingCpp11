@@ -1904,3 +1904,425 @@ int main()
     return 0;
 }
 
+----------------------------------------------------------------------------------
+//Parallel_acumulate suming values from container thread safe
+
+class join_threads {
+    vector<thread> & threads;
+public:
+    explicit join_threads(vector<thread> & threads_) : threads(threads_){}
+    ~join_threads() {
+        for(unsigned long i = 0; i < threads.size(); ++i) {
+            if(threads[i].joinable()) threads[i].join();
+        }
+    }
+};
+
+template<typename Iterator, typename T>
+T parallel_accumulate(Iterator first, Iterator last, T init) {
+
+    unsigned long const length = distance(first, last);
+
+    if(!length) {
+        return init;
+    }
+
+    unsigned long const min_per_thread = 25;
+    unsigned long const max_threads = (length+min_per_thread-1)/min_per_thread;
+    unsigned long const hardware_threads = thread::hardware_concurrency();
+    unsigned long const num_threads = min(hardware_threads != 0 ? hardware_threads : 2, max_threads);
+    unsigned long const block_size = length / num_threads;
+
+    vector<future<T>> futures(num_threads - 1);
+    vector<thread> threads(num_threads - 1);
+    join_threads joiner(threads);
+    auto accumulate_block = [](Iterator first, Iterator last) {
+        cout << "thread_id: " << this_thread::get_id() << endl;
+        return std::accumulate(first, last, T());
+    };
+
+    Iterator block_start = first;
+    for(unsigned long i = 0; i < (num_threads - 1); ++i) {
+            Iterator block_end = block_start;
+            advance(block_end, block_size);
+            std::packaged_task<T(Iterator, Iterator)> task(accumulate_block);
+            futures[i] = task.get_future();
+            threads[i] = thread(move(task), block_start, block_end);
+            block_start = block_end;
+    }
+    T last_result = accumulate_block(block_start, last);
+    T result = init;
+    for(unsigned long i = 0; i < (num_threads - 1); ++i) {
+        result += futures[i].get();
+    }
+    return (result += last_result);
+}
+
+int main()
+{
+    list<int> li = { 1,  2,  3,  4,  5,  6,  7,  8,  9, 10,
+                    11, 12, 13, 14, 15, 16, 17, 18, 19, 20,
+                    21, 22, 23, 24, 25, 26, 27, 28, 29, 30,
+                    31, 32, 33, 34, 35, 36, 37, 38, 39, 40,
+                    41, 42, 43, 44, 45, 46, 47, 48, 49, 50,
+                    51, 52, 53, 54, 55, 56, 57, 58, 59, 60,
+                    61, 62, 63, 64, 65, 66, 67, 68, 69, 70,
+                    71, 72, 73, 74, 75, 76, 77, 78, 79, 80,
+                    81, 82, 83, 84, 85, 86, 87, 88, 89, 90,
+                    91, 92, 93, 94, 95, 96, 97, 98, 99, 100};
+
+    int sum;
+    auto start = chrono::system_clock::now();
+    //Sequential sum of elements by std library
+    sum = accumulate(li.begin(), li.end(), sum);
+    cout << "time: " << chrono::duration<double>(chrono::system_clock::now() - start).count()  << endl;
+    cout << "sequence accumaluate: " << sum  << endl;
+
+    sum = 0;
+
+    start = chrono::system_clock::now();
+    //Parallel sum of elements by own parallel_function
+    sum = parallel_accumulate(li.begin(), li.end(), sum);
+    cout << "time: " << chrono::duration<double>(chrono::system_clock::now() - start).count() << endl;
+    cout << "parallel accumaluate: " << sum  << endl;
+}
+
+----------------------------------------------------------------------------------
+//Parallel_acumulate based on async suming values from container thread safe
+
+template<typename Iterator, typename T>
+T parallel_accumulate(Iterator first, Iterator last, T init) {
+
+    unsigned long const length = distance(first, last);
+    unsigned long const max_chunk_size = 25;
+
+    if(length <= max_chunk_size) {
+        return accumulate(first, last, init);
+    } else {
+        Iterator mid_point = first;
+        advance(mid_point, length/2);
+        future<T> first_half_result = async(parallel_accumulate<Iterator, T>, first, mid_point, init);
+        T second_half_result = parallel_accumulate(mid_point, last, T());
+        return first_half_result.get() + second_half_result;
+    }
+}
+
+int main()
+{
+    list<int> li = { 1,  2,  3,  4,  5,  6,  7,  8,  9, 10,
+                    11, 12, 13, 14, 15, 16, 17, 18, 19, 20,
+                    21, 22, 23, 24, 25, 26, 27, 28, 29, 30,
+                    31, 32, 33, 34, 35, 36, 37, 38, 39, 40,
+                    41, 42, 43, 44, 45, 46, 47, 48, 49, 50,
+                    51, 52, 53, 54, 55, 56, 57, 58, 59, 60,
+                    61, 62, 63, 64, 65, 66, 67, 68, 69, 70,
+                    71, 72, 73, 74, 75, 76, 77, 78, 79, 80,
+                    81, 82, 83, 84, 85, 86, 87, 88, 89, 90,
+                    91, 92, 93, 94, 95, 96, 97, 98, 99, 100};
+
+    int sum;
+    auto start = chrono::system_clock::now();
+    sum = accumulate(li.begin(), li.end(), sum);
+    cout << "time: " << chrono::duration<double>(chrono::system_clock::now() - start).count()  << endl;
+    cout << "sequence accumaluate: " << sum  << endl;
+
+    sum = 0;
+
+    start = chrono::system_clock::now();
+    sum = parallel_accumulate(li.begin(), li.end(), sum);
+    cout << "time: " << chrono::duration<double>(chrono::system_clock::now() - start).count() << endl;
+    cout << "parallel accumaluate: " << sum  << endl;
+}
+
+----------------------------------------------------------------------------------
+//Parallel for_each thread safe
+
+class join_threads {
+    vector<thread> & threads;
+public:
+    explicit join_threads(vector<thread> & threads_) : threads(threads_){}
+
+    ~join_threads() {
+        for(unsigned long i = 0; i < threads.size(); ++i) {
+            if(threads[i].joinable()) {
+                threads[i].join();
+            }
+        }
+    }
+};
+
+template<typename Iterator, typename Func>
+void parallel_for_each(Iterator first, Iterator last, Func f) {
+    unsigned long const length = distance(first, last);
+
+    if(!length) return;
+
+    unsigned long const min_per_thread = 25;
+    unsigned long const max_threads = (length+min_per_thread-1)/min_per_thread;
+
+    unsigned long const hardware_threads = thread::hardware_concurrency();
+
+    unsigned long const num_threads = min(hardware_threads != 0 ? hardware_threads : 2, max_threads);
+    unsigned long const block_size = length / num_threads;
+
+    vector<future<void>> futures(num_threads - 1);
+    vector<thread> threads(num_threads - 1);
+    join_threads joiner(threads);
+
+    Iterator block_start = first;
+    for(unsigned long i = 0; i < (num_threads - 1); ++i) {
+            Iterator block_end = block_start;
+            advance(block_end, block_size);
+            std::packaged_task<void(void)> task([=]() {
+                cout << "thread_id: " << this_thread::get_id() << endl;
+                for_each(block_start, block_end, f);
+            });
+            futures[i] = task.get_future();
+            threads[i] = thread(move(task));
+            block_start = block_end;
+    }
+
+    for_each(block_start, last, f);
+    for(unsigned long i = 0; i < (num_threads-1); ++i) {
+        futures[i].get();
+    }
+}
+
+int main()
+{
+    list<int> li = { 1,  2,  3,  4,  5,  6,  7,  8,  9, 10,
+                    11, 12, 13, 14, 15, 16, 17, 18, 19, 20,
+                    21, 22, 23, 24, 25, 26, 27, 28, 29, 30,
+                    31, 32, 33, 34, 35, 36, 37, 38, 39, 40,
+                    41, 42, 43, 44, 45, 46, 47, 48, 49, 50,
+                    51, 52, 53, 54, 55, 56, 57, 58, 59, 60,
+                    61, 62, 63, 64, 65, 66, 67, 68, 69, 70,
+                    71, 72, 73, 74, 75, 76, 77, 78, 79, 80,
+                    81, 82, 83, 84, 85, 86, 87, 88, 89, 90,
+                    91, 92, 93, 94, 95, 96, 97, 98, 99, 100};
+
+    cout << "before" << endl;
+    for(auto &a : li) cout << a << " ";
+    cout << endl;
+
+    parallel_for_each(li.begin(), li.end(), [](int & i){i *= 2;});
+
+    cout << "after" << endl;
+    for(auto &a : li) cout << a << " ";
+    cout << endl;
+}
+
+----------------------------------------------------------------------------------
+//Parallel for_each thread safe based on async
+
+template<typename Iterator, typename Func>
+void parallel_for_each(Iterator first, Iterator last, Func f) {
+    unsigned long const length = distance(first, last);
+    if(!length) return;
+
+    unsigned long const max_chunk_size = 25;
+    if(length <= (2 * max_chunk_size)) {
+        for_each(first, last, f);
+    } else {
+        Iterator mid_point = first;
+        std::advance(mid_point, length / 2);
+        future<void> first_half = async(parallel_for_each<Iterator, Func>, first, mid_point, f);
+        parallel_for_each(mid_point, last, f);
+        first_half.get();
+    }
+}
+
+int main()
+{
+    list<int> li = {  1, 2,  3,  4,  5,  6,  7,  8,  9, 10,
+                    11, 12, 13, 14, 15, 16, 17, 18, 19, 20,
+                    21, 22, 23, 24, 25, 26, 27, 28, 29, 30,
+                    31, 32, 33, 34, 35, 36, 37, 38, 39, 40,
+                    41, 42, 43, 44, 45, 46, 47, 48, 49, 50,
+                    51, 52, 53, 54, 55, 56, 57, 58, 59, 60,
+                    61, 62, 63, 64, 65, 66, 67, 68, 69, 70,
+                    71, 72, 73, 74, 75, 76, 77, 78, 79, 80,
+                    81, 82, 83, 84, 85, 86, 87, 88, 89, 90,
+                    91, 92, 93, 94, 95, 96, 97, 98, 99, 100};
+
+    cout << "before" << endl;
+    for(auto &a : li) cout << a << " ";
+    cout << endl;
+
+    parallel_for_each(li.begin(), li.end(), [](int & i){i *= 3;});
+
+    cout << "after" << endl;
+    for(auto &a : li) cout << a << " ";
+    cout << endl;
+}
+
+----------------------------------------------------------------------------------
+//Parallel thread safe find
+
+class join_threads
+{
+    vector<thread> & threads;
+public:
+    explicit join_threads(vector<thread> & threads_) : threads(threads_){}
+
+    ~join_threads() {
+        for(unsigned long i = 0; i < threads.size(); ++i) {
+            if(threads[i].joinable()) {
+                threads[i].join();
+            }
+        }
+    }
+};
+
+template<typename Iterator, typename MatchType>
+Iterator parallel_find(Iterator first, Iterator last, MatchType match)
+{
+    struct find_element
+    {
+        void operator()(Iterator begin, Iterator end, MatchType match,
+                        promise<Iterator> * result, atomic<bool> * done_flag) {
+            try {
+                //Continue searching element by element or stop if another thread
+                //already found value for his part of elements
+                for(; (begin != end) && !done_flag->load(); ++begin) {
+                    if(*begin==match) {//If this thread found value
+                        result->set_value(begin);//save it place
+                        done_flag->store(true);//and notify other threads
+                        return;
+                    }
+                }
+            } catch(...) {//If there is any exception we save it in promise
+                try {     //and finish other threads
+                    result->set_exception(current_exception());
+                    done_flag->store(true);
+
+                } catch(...) {}//Ignore any exception on this level
+            }
+        }
+    };
+
+    unsigned long const length = distance(first, last);
+    if(!length) return last;
+
+    unsigned long const min_per_thread = 25;
+    unsigned long const max_threads = (length + min_per_thread-1)/min_per_thread;
+    unsigned long const hardware_threads = thread::hardware_concurrency();
+    unsigned long const num_threads = min(hardware_threads != 0 ? hardware_threads : 2, max_threads);
+    unsigned long const block_size = length/num_threads;
+
+    promise<Iterator> result;
+    atomic<bool> done_flag(false);
+    vector<thread> threads(num_threads - 1);
+    {
+        join_threads joiner(threads);
+
+        Iterator block_start = first;
+        for(unsigned long i = 0; i < (num_threads-1); ++i) {
+            Iterator block_end = block_start;
+            advance(block_end, block_size);
+            threads[i] = thread(find_element(), block_start, block_end, match, &result, &done_flag);
+            block_start = block_end;
+        }
+        find_element()(block_start, last, match, &result, &done_flag);
+    }
+    if(!done_flag.load()) {//Searched element was not founded
+        return last;
+    }
+    return result.get_future().get();//Provide searched element or exception
+}
+
+int main()
+{
+    list<int> li = { 1,  2,  3,  4,  5,  6,  7,  8,  9, 10,
+                    11, 12, 13, 14, 15, 16, 17, 18, 19, 20,
+                    21, 22, 23, 24, 25, 26, 27, 28, 29, 30,
+                    31, 32, 33, 34, 35, 36, 37, 38, 39, 40,
+                    41, 42, 43, 44, 45, 46, 47, 48, 49, 50,
+                    51, 52, 53, 54, 55, 56, 57, 58, 59, 60,
+                    61, 62, 63, 64, 65, 66, 67, 68, 69, 70,
+                    71, 72, 73, 74, 75, 76, 77, 78, 79, 80,
+                    81, 82, 83, 84, 85, 86, 87, 88, 89, 90,
+                    91, 92, 93, 94, 95, 96, 97, 98, 99, 100};
+
+    cout << "before" << endl;
+    for(auto &a : li) cout << a << " ";
+    cout << endl << endl;
+
+    auto it = parallel_find(li.begin(), li.end(), 68);
+    li.erase(it);
+
+    cout << "after" << endl;
+    for(auto &a : li) cout << a << " ";
+    cout << endl << endl;
+}
+
+----------------------------------------------------------------------------------
+//Parallel thread safe find based on async
+
+template<typename Iterator, typename MatchType>
+Iterator parralel_find_impl(Iterator first, Iterator last, MatchType match, atomic<bool> & done)
+{
+    try {
+        unsigned long const length = distance(first, last);
+        unsigned long const min_per_thread = 25;
+        //If container length is  to small to divide it beetween threads
+        if(length < ( 2 * min_per_thread)) {
+            //search for all elements in current groups until another thread
+            for(; (first != last) && !done.load(); ++first) {//did not find result.
+                if(*first==match) {//Or tihs thread found result.
+                    done.store(true);//So notify other threads.
+                    return first;
+                }
+            }
+            return last;//If element not founded return las position of group
+        //Divide container elements to groups for dedicated threads
+        } else {
+            Iterator mid_point = first;
+            advance(mid_point, length / 2);
+            //Do first half recursively in separated thread.
+            future<Iterator> async_result = async(&parralel_find_impl<Iterator, MatchType>, mid_point, last, match, ref(done));
+            //Do second half recursively in cerrent thread.
+            Iterator const direct_result = parralel_find_impl(first, mid_point, match, done);
+            //If not founded in current thread try to get results from other threads.
+            //If they also doesnt have result last is returned. Otherwise founded
+            //element position is returned.
+            return (direct_result==mid_point) ? async_result.get() : direct_result;
+        }
+    } catch(...) {
+        done = true;
+        throw;
+    }
+}
+
+template<typename Iterator, typename MatchType>
+Iterator parallel_find(Iterator first, Iterator last, MatchType match) {
+    atomic<bool> done(false);
+    return parralel_find_impl(first, last, match, done);
+}
+
+int main()
+{
+    list<int> li = { 1,  2,  3,  4,  5,  6,  7,  8,  9, 10,
+                    11, 12, 13, 14, 15, 16, 17, 18, 19, 20,
+                    21, 22, 23, 24, 25, 26, 27, 28, 29, 30,
+                    31, 32, 33, 34, 35, 36, 37, 38, 39, 40,
+                    41, 42, 43, 44, 45, 46, 47, 48, 49, 50,
+                    51, 52, 53, 54, 55, 56, 57, 58, 59, 60,
+                    61, 62, 63, 64, 65, 66, 67, 68, 69, 70,
+                    71, 72, 73, 74, 75, 76, 77, 78, 79, 80,
+                    81, 82, 83, 84, 85, 86, 87, 88, 89, 90,
+                    91, 92, 93, 94, 95, 96, 97, 98, 99, 100};
+
+    cout << "before" << endl;
+    for(auto &a : li) cout << a << " ";
+    cout << endl;
+
+    auto it = parallel_find(li.begin(), li.end(), 68);
+    li.erase(it);
+
+    cout << "after" << endl;
+    for(auto &a : li) cout << a << " ";
+    cout << endl << endl;
+}
+
+----------------------------------------------------------------------------------

@@ -7,17 +7,14 @@
 #include <future>
 using namespace std;
 
-class join_threads
-{
+class join_threads {
     vector<thread> & threads;
 public:
     explicit join_threads(vector<thread> & threads_) : threads(threads_){}
-    ~join_threads()
-    {
-        for(unsigned long i = 0; i < threads.size(); ++i)
-        {
-            if(threads[i].joinable())
-            {
+
+    ~join_threads() {
+        for(unsigned long i = 0; i < threads.size(); ++i) {
+            if(threads[i].joinable()) {
                 threads[i].join();
             }
         }
@@ -25,14 +22,10 @@ public:
 };
 
 template<typename Iterator, typename Func>
-void parallel_for_each(Iterator first, Iterator last, Func f)
-{
+void parallel_for_each(Iterator first, Iterator last, Func f) {
     unsigned long const length = distance(first, last);
 
-    if(!length)
-    {
-        return;
-    }
+    if(!length) return;
 
     unsigned long const min_per_thread = 25;
     unsigned long const max_threads = (length+min_per_thread-1)/min_per_thread;
@@ -47,26 +40,27 @@ void parallel_for_each(Iterator first, Iterator last, Func f)
     join_threads joiner(threads);
 
     Iterator block_start = first;
-    for(unsigned long i = 0; i < (num_threads - 1); ++i)
-    {
+    for(unsigned long i = 0; i < (num_threads - 1); ++i) {
             Iterator block_end = block_start;
             advance(block_end, block_size);
-            std::packaged_task<void(void)> task([=](){for_each(block_start, block_end, f);});
+            std::packaged_task<void(void)> task([=]() {
+                cout << "thread_id: " << this_thread::get_id() << endl;
+                for_each(block_start, block_end, f);
+            });
             futures[i] = task.get_future();
             threads[i] = thread(move(task));
             block_start = block_end;
     }
 
     for_each(block_start, last, f);
-    for(unsigned long i = 0; i < (num_threads-1); ++i)
-    {
+    for(unsigned long i = 0; i < (num_threads-1); ++i) {
         futures[i].get();
     }
 }
 
 int main()
 {
-    list<int> li = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10,
+    list<int> li = { 1,  2,  3,  4,  5,  6,  7,  8,  9, 10,
                     11, 12, 13, 14, 15, 16, 17, 18, 19, 20,
                     21, 22, 23, 24, 25, 26, 27, 28, 29, 30,
                     31, 32, 33, 34, 35, 36, 37, 38, 39, 40,
@@ -79,13 +73,11 @@ int main()
 
     cout << "before" << endl;
     for(auto &a : li) cout << a << " ";
-    cout << endl << endl;
+    cout << endl;
 
     parallel_for_each(li.begin(), li.end(), [](int & i){i *= 2;});
 
     cout << "after" << endl;
     for(auto &a : li) cout << a << " ";
     cout << endl;
-
-    return 0;
 }
