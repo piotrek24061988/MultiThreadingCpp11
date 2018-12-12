@@ -12,97 +12,56 @@ using namespace std;
 
 class barrier
 {
-    atomic<unsigned> count;
-    atomic<unsigned> spaces;
+    atomic<unsigned> count;//Total number of threads
+    atomic<unsigned> spaces;//Free places for threads
     atomic<unsigned> generation;
-public:
-    explicit barrier(unsigned count_) : count(count_), spaces(count_), generation(0)
-    {}
 
-    void wait()
-    {
+public:
+    explicit barrier(unsigned count_) : count(count_), spaces(count_), generation(0){}
+
+    void wait() {
         unsigned const my_generation = generation;
-        if(!--spaces)
-        {
-            spaces = count.load();
-            ++generation;
-        }
-        else
-        {
-            while(generation==my_generation)
-            {
-                this_thread::yield();
+        if(!--spaces) {//Adding new waiting thread decrease number of free places.
+            spaces = count.load();//If no more pleaces reasign initial value and
+            ++generation;//let know waiting threads that they can continue they work.
+        } else {
+            while(generation==my_generation) {//If barier achieved, stop waiting.
+                this_thread::yield();//Do not waiste processor time when waiting.
             }
         }
     }
 
-    void done_waiting()
-    {
-        --count;
-        if(!--spaces)
-        {
-            spaces=count.load();
-            ++generation;
+    void done_waiting() {//Decrease total number of waiting threads to use
+        --count;         //new lower value when current barier achieved.
+        if(!--spaces) {//Decrease number of free places.
+            spaces=count.load();//If no more pleaces reasign initial value and
+            ++generation;//let know waiting threads that they can continue they work.
         }
     }
 };
 
-void f1(barrier & b)
+void f(barrier & b, string s)
 {
+    cout << s << " before" << endl;
     this_thread::sleep_for(1s);
-    cout << "f1 before" << endl;
     b.wait();
-    cout << "f1 after" << endl;
+    cout << s <<" after" << endl;
 }
-
-void f2(barrier & b)
-{
-    this_thread::sleep_for(2s);
-    cout << "f2 before" << endl;
-    b.wait();
-    cout << "f2 after" << endl;
-}
-
-void f3(barrier & b)
-{
-    this_thread::sleep_for(3s);
-    cout << "f3 before" << endl;
-    b.wait();
-    cout << "f3 after" << endl;
-}
-
-void f4(barrier & b)
-{
-    this_thread::sleep_for(4s);
-    cout << "f4 before" << endl;
-    b.wait();
-    cout << "f4 after" << endl;
-}
-
-void f5(barrier & b)
-{
-    this_thread::sleep_for(5s);
-    cout << "f5 before" << endl;
-    b.wait();
-    cout << "f5 after" << endl;
-}
-
 
 int main()
 {
-    barrier b(5);
-    thread t1(f1, ref(b));
-    thread t2(f2, ref(b));
-    thread t3(f3, ref(b));
-    thread t4(f4, ref(b));
-    thread t5(f5, ref(b));
+    barrier b(3);
 
-    t1.join();
-    t2.join();
-    t3.join();
-    t4.join();
-    t5.join();
+    thread t1(f, ref(b), "t1"); thread t2(f, ref(b), "t2"); thread t3(f, ref(b), "t3");
 
-    return 0;
+    t1.join(); t2.join(); t3.join();
+
+    cout << endl << endl;
+
+    thread t4(f, ref(b), "t4"); thread t5(f, ref(b), "t5");
+    this_thread::sleep_for(1s);
+    b.done_waiting();
+
+    t4.join(); t5.join();
 }
 
