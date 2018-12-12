@@ -10,7 +10,7 @@
 #include <numeric>
 using namespace std;
 
-class join_threads
+class join_threads //RAII to join created threads at the end.
 {
     vector<thread> & threads;
 public:
@@ -31,24 +31,24 @@ void parallel_partial_sum(Iterator first, Iterator last)
     typedef typename Iterator::value_type value_type;
 
     struct process_chunk
-    {   //future of last value from previous part of data
+    {                                                   //Future of last value from prev part of data.
         void operator()(Iterator begin, Iterator last, future<value_type> * previous_end_value,
-                        promise<value_type> * end_value) {//last value for current part of data
+                        promise<value_type> * end_value) {//Last value for current part of data.
             cout << "thread_id: " << this_thread::get_id() << endl;
             try {
                 Iterator end = last;
                 ++end;
-                partial_sum(begin, end, begin);
-                if(previous_end_value) {//Is this firs part of data
-                    value_type addend = previous_end_value->get();//If not wait for last value from previous part
+                partial_sum(begin, end, begin);//partial_sum just for this part of data without prev value.
+                if(previous_end_value) {//Is this firs part of data?
+                    value_type addend = previous_end_value->get();//No. Wait for last value from prev part.
                     *last += addend;
                     if(end_value) {
-                        end_value->set_value(*last);//first set end_value for next part of data
-                    }                               //to inscrease parallel performence
-                    //add previous_end_value to all elements from this parts of data
+                        end_value->set_value(*last);//First set end_value for next part of data
+                    }                               //to inscrease parallel performence.
+                    //Add previous_end_value to all elements from this parts of data
                     for_each(begin, last, [addend](value_type & item){item += addend;});
-                } else if(end_value) {
-                    end_value->set_value(*last);//This is first part of data.
+                } else if(end_value) {//This is first part of data. So just set end_value for
+                    end_value->set_value(*last); //next part of data to increase parallel performance.
                 }
             } catch(...) {
                 if(end_value) {
@@ -74,25 +74,25 @@ void parallel_partial_sum(Iterator first, Iterator last)
 
     typedef typename Iterator::value_type value_type;
     vector<thread> threads(num_threads - 1);
-    vector<promise<value_type>> end_values(num_threads-1);//last elements of parts of data
-    vector<future<value_type>> previous_end_values;//value of last element from previous part of data
+    vector<promise<value_type>> end_values(num_threads-1);//Last elements for each part of data.
+    vector<future<value_type>> previous_end_values;//Last element from previous part of data.
     previous_end_values.reserve(num_threads - 1);
     join_threads joiner(threads);
 
     Iterator block_start = first;
-    //Iterate for every parts of elements
+    //Iterate for every parts of elements.
     for(unsigned long i = 0; i < (num_threads - 1); ++i) {
         Iterator block_last = block_start;
-        advance(block_last, block_size - 1);//last element from curent parts of data
+        advance(block_last, block_size - 1);//Last element from curent parts of data.
         threads[i] = thread(process_chunk(), block_start, block_last, (i!=0) ? &previous_end_values[i-1]: 0, &end_values[i]);
         block_start = block_last;
         ++block_start;
-        //last value of this part of data to be used in next iteration
+        //Last value of this part of data to be used in next iteration.
         previous_end_values.push_back(end_values[i].get_future());
     }
     Iterator final_element = block_start;
     advance(final_element, distance(block_start, last) - 1);
-    //process last part of data elements
+    //Process last part of data elements in current thread.
     process_chunk()(block_start, final_element, (num_threads>1) ? &previous_end_values.back() : 0, 0);
 }
 
