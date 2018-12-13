@@ -2345,75 +2345,64 @@ public:
     }
 };
 
-template<typename Iterator>
-void parallel_partial_sum(Iterator first, Iterator last)
-{
+//example of internal work
+//[0, 1, 2, 3, 4, 5]
+//thread 1 [0, x1+0, x2+0, x3+0, x4+0, x5+0]
+//thread 2 [0, 1   , x2+1, x3+1, x4+1, x5+1]
+//thread 3 [0, 1   , 3   , x3+2, x4+2, x5+2]
+//thread 4 [0, 1   , 3   , 6   , x4+3, x5+3]
+//thread 5 [0, 1   , 3   , 6   ,   10, x5+4]
+//thread 6 [0, 1   , 3   , 6   ,   20, 15]
+template <typename Iterator>
+void parallel_partial_sum(Iterator first, Iterator last) {
     typedef typename Iterator::value_type value_type;
 
-    struct process_chunk
-    {                                                   //Future of last value from prev part of data.
-        void operator()(Iterator begin, Iterator last, future<value_type> * previous_end_value,
-                        promise<value_type> * end_value) {//Last value for current part of data.
-            cout << "thread_id: " << this_thread::get_id() << endl;
-            try {
-                Iterator end = last;
-                ++end;
-                partial_sum(begin, end, begin);//partial_sum just for this part of data without prev value.
-                if(previous_end_value) {//Is this firs part of data?
-                    value_type addend = previous_end_value->get();//No. Wait for last value from prev part.
-                    *last += addend;
-                    if(end_value) {
-                        end_value->set_value(*last);//First set end_value for next part of data
-                    }                               //to inscrease parallel performence.
-                    //Add previous_end_value to all elements from this parts of data
-                    for_each(begin, last, [addend](value_type & item){item += addend;});
-                } else if(end_value) {//This is first part of data. So just set end_value for
-                    end_value->set_value(*last); //next part of data to increase parallel performance.
-                }
-            } catch(...) {
-                if(end_value) {
-                    end_value->set_exception(current_exception());
-                } else {
-                    throw;
-                }
+    struct process_element {
+        void operator()(Iterator first, Iterator last, vector<value_type> & buffer,
+                        unsigned i, barrier & b) {
+
+            Iterator temp = first;
+            advance(temp, i);
+            value_type & ith_element = *temp;
+            bool update_source = false;
+
+            for(unsigned step = 0, stride = 1; stride <= i; ++step, stride *= 2) {
+                temp = first;
+                advance(temp, i - stride);
+                value_type const & source = (step % 2) ? buffer[i] : ith_element;
+                value_type & dest = (step % 2) ? ith_element : buffer[i];
+                value_type const & addend = (step % 2) ? buffer[i - stride] : *temp;
+
+                dest = source + addend;
+                update_source = !(step % 2);
+
+                b.wait();
             }
+            //These 2 lines are just for debug
+            cout << "thread_id: " << this_thread::get_id() << endl;
+            for(auto i = first; i != last; i++) { cout << *i << " ";} cout << endl;
+            if(update_source) {
+                ith_element = buffer[i];
+            }
+            b.done_waiting();
         }
     };
 
     unsigned long const length = distance(first, last);
 
-    if(!length) return;
+    if(length <= 1) return;
 
-    unsigned long const min_per_thread = 25;
-    unsigned long const max_threads = (length + min_per_thread-1)/min_per_thread;
+    vector<value_type> buffer(length);
+    barrier b(length);
 
-    unsigned long const hardware_threads = thread::hardware_concurrency();
-
-    unsigned long const num_threads = min(hardware_threads != 0 ? hardware_threads : 2, max_threads);
-    unsigned long const block_size = length/num_threads;
-
-    typedef typename Iterator::value_type value_type;
-    vector<thread> threads(num_threads - 1);
-    vector<promise<value_type>> end_values(num_threads-1);//Last elements for each part of data.
-    vector<future<value_type>> previous_end_values;//Last element from previous part of data.
-    previous_end_values.reserve(num_threads - 1);
+    vector<thread> threads(length - 1);//Number of threads depends on number of data
     join_threads joiner(threads);
 
     Iterator block_start = first;
-    //Iterate for every parts of elements.
-    for(unsigned long i = 0; i < (num_threads - 1); ++i) {
-        Iterator block_last = block_start;
-        advance(block_last, block_size - 1);//Last element from curent parts of data.
-        threads[i] = thread(process_chunk(), block_start, block_last, (i!=0) ? &previous_end_values[i-1]: 0, &end_values[i]);
-        block_start = block_last;
-        ++block_start;
-        //Last value of this part of data to be used in next iteration.
-        previous_end_values.push_back(end_values[i].get_future());
+    for(unsigned long i = 0; i < (length - 1); ++i) {
+        threads[i] = thread(process_element(), first, last, ref(buffer), i, ref(b));
     }
-    Iterator final_element = block_start;
-    advance(final_element, distance(block_start, last) - 1);
-    //Process last part of data elements in current thread.
-    process_chunk()(block_start, final_element, (num_threads>1) ? &previous_end_values.back() : 0, 0);
+    process_element()(first, last, buffer, length - 1, b);
 }
 
 int main()

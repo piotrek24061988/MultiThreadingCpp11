@@ -55,6 +55,14 @@ public:
     }
 };
 
+//example of internal work
+//[0, 1, 2, 3, 4, 5]
+//thread 1 [0, x1+0, x2+0, x3+0, x4+0, x5+0]
+//thread 2 [0,    1, x2+1, x3+1, x4+1, x5+1]
+//thread 3 [0,    1,    3, x3+2, x4+2, x5+2]
+//thread 4 [0,    1,    3,    6, x4+3, x5+3]
+//thread 5 [0,    1,    3,    6,   10, x5+4]
+//thread 6 [0,    1,    3,    6,   20, 15]
 template <typename Iterator>
 void parallel_partial_sum(Iterator first, Iterator last) {
     typedef typename Iterator::value_type value_type;
@@ -62,6 +70,7 @@ void parallel_partial_sum(Iterator first, Iterator last) {
     struct process_element {
         void operator()(Iterator first, Iterator last, vector<value_type> & buffer,
                         unsigned i, barrier & b) {
+
             Iterator temp = first;
             advance(temp, i);
             value_type & ith_element = *temp;
@@ -76,8 +85,12 @@ void parallel_partial_sum(Iterator first, Iterator last) {
 
                 dest = source + addend;
                 update_source = !(step % 2);
+
                 b.wait();
             }
+            //These 2 lines are just for debug
+            cout << "thread_id: " << this_thread::get_id() << endl;
+            for(auto i = first; i != last; i++) { cout << *i << " ";} cout << endl;
             if(update_source) {
                 ith_element = buffer[i];
             }
@@ -114,6 +127,7 @@ int main()
                        71, 72, 73, 74, 75, 76, 77, 78, 79, 80,
                        81, 82, 83, 84, 85, 86, 87, 88, 89, 90,
                        91, 92, 93, 94, 95, 96, 97, 98, 99, 100};
+    //list<int> li = { 0, 1,  2,  3,  4,  5};
 
     cout << "before" << endl;
     for(auto &a : li) cout << a << " ";
