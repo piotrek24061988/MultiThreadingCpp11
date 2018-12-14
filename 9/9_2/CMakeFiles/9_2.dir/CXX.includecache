@@ -6,7 +6,7 @@
 
 #IncludeRegexTransform: 
 
-/home/piotr/MultiThreading/9/9_2/9_2/main.cpp
+/home/piotr/MultiThreadingCpp11/9/9_2/main.cpp
 iostream
 -
 algorithm
