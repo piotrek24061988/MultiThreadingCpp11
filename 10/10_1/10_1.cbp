@@ -8,28 +8,28 @@
       <Option virtualFolders="CMake Files\;" />
       <Build>
       <Target title="all">
-         <Option working_dir="/home/piotr/MultiThreading/10/10_1" />
+         <Option working_dir="/home/piotr/MultiThreadingCpp11/10/10_1" />
          <Option type="4" />
          <MakeCommands>
-            <Build command="/usr/bin/make -f &quot;/home/piotr/MultiThreading/10/10_1/Makefile&quot;  VERBOSE=1 all" />
-            <CompileFile command="/usr/bin/make -f &quot;/home/piotr/MultiThreading/10/10_1/Makefile&quot;  VERBOSE=1 &quot;$file&quot;" />
-            <Clean command="/usr/bin/make -f &quot;/home/piotr/MultiThreading/10/10_1/Makefile&quot;  VERBOSE=1 clean" />
-            <DistClean command="/usr/bin/make -f &quot;/home/piotr/MultiThreading/10/10_1/Makefile&quot;  VERBOSE=1 clean" />
+            <Build command="/usr/bin/make -f &quot;/home/piotr/MultiThreadingCpp11/10/10_1/Makefile&quot;  VERBOSE=1 all" />
+            <CompileFile command="/usr/bin/make -f &quot;/home/piotr/MultiThreadingCpp11/10/10_1/Makefile&quot;  VERBOSE=1 &quot;$file&quot;" />
+            <Clean command="/usr/bin/make -f &quot;/home/piotr/MultiThreadingCpp11/10/10_1/Makefile&quot;  VERBOSE=1 clean" />
+            <DistClean command="/usr/bin/make -f &quot;/home/piotr/MultiThreadingCpp11/10/10_1/Makefile&quot;  VERBOSE=1 clean" />
          </MakeCommands>
       </Target>
       <Target title="edit_cache">
-         <Option working_dir="/home/piotr/MultiThreading/10/10_1" />
+         <Option working_dir="/home/piotr/MultiThreadingCpp11/10/10_1" />
          <Option type="4" />
          <MakeCommands>
-            <Build command="/usr/bin/make -f &quot;/home/piotr/MultiThreading/10/10_1/Makefile&quot;  VERBOSE=1 edit_cache" />
-            <CompileFile command="/usr/bin/make -f &quot;/home/piotr/MultiThreading/10/10_1/Makefile&quot;  VERBOSE=1 &quot;$file&quot;" />
-            <Clean command="/usr/bin/make -f &quot;/home/piotr/MultiThreading/10/10_1/Makefile&quot;  VERBOSE=1 clean" />
-            <DistClean command="/usr/bin/make -f &quot;/home/piotr/MultiThreading/10/10_1/Makefile&quot;  VERBOSE=1 clean" />
+            <Build command="/usr/bin/make -f &quot;/home/piotr/MultiThreadingCpp11/10/10_1/Makefile&quot;  VERBOSE=1 edit_cache" />
+            <CompileFile command="/usr/bin/make -f &quot;/home/piotr/MultiThreadingCpp11/10/10_1/Makefile&quot;  VERBOSE=1 &quot;$file&quot;" />
+            <Clean command="/usr/bin/make -f &quot;/home/piotr/MultiThreadingCpp11/10/10_1/Makefile&quot;  VERBOSE=1 clean" />
+            <DistClean command="/usr/bin/make -f &quot;/home/piotr/MultiThreadingCpp11/10/10_1/Makefile&quot;  VERBOSE=1 clean" />
          </MakeCommands>
       </Target>
       <Target title="10_1">
-         <Option output="/home/piotr/MultiThreading/10/10_1/10_1" prefix_auto="0" extension_auto="0" />
-         <Option working_dir="/home/piotr/MultiThreading/10/10_1" />
+         <Option output="/home/piotr/MultiThreadingCpp11/10/10_1/10_1" prefix_auto="0" extension_auto="0" />
+         <Option working_dir="/home/piotr/MultiThreadingCpp11/10/10_1" />
          <Option object_output="./" />
          <Option type="1" />
          <Option compiler="gcc" />
@@ -44,15 +44,15 @@
             <Add directory="/usr/local/include" />
          </Compiler>
          <MakeCommands>
-            <Build command="/usr/bin/make -f &quot;/home/piotr/MultiThreading/10/10_1/Makefile&quot;  VERBOSE=1 10_1" />
-            <CompileFile command="/usr/bin/make -f &quot;/home/piotr/MultiThreading/10/10_1/Makefile&quot;  VERBOSE=1 &quot;$file&quot;" />
-            <Clean command="/usr/bin/make -f &quot;/home/piotr/MultiThreading/10/10_1/Makefile&quot;  VERBOSE=1 clean" />
-            <DistClean command="/usr/bin/make -f &quot;/home/piotr/MultiThreading/10/10_1/Makefile&quot;  VERBOSE=1 clean" />
+            <Build command="/usr/bin/make -f &quot;/home/piotr/MultiThreadingCpp11/10/10_1/Makefile&quot;  VERBOSE=1 10_1" />
+            <CompileFile command="/usr/bin/make -f &quot;/home/piotr/MultiThreadingCpp11/10/10_1/Makefile&quot;  VERBOSE=1 &quot;$file&quot;" />
+            <Clean command="/usr/bin/make -f &quot;/home/piotr/MultiThreadingCpp11/10/10_1/Makefile&quot;  VERBOSE=1 clean" />
+            <DistClean command="/usr/bin/make -f &quot;/home/piotr/MultiThreadingCpp11/10/10_1/Makefile&quot;  VERBOSE=1 clean" />
          </MakeCommands>
       </Target>
       <Target title="10_1/fast">
-         <Option output="/home/piotr/MultiThreading/10/10_1/10_1" prefix_auto="0" extension_auto="0" />
-         <Option working_dir="/home/piotr/MultiThreading/10/10_1" />
+         <Option output="/home/piotr/MultiThreadingCpp11/10/10_1/10_1" prefix_auto="0" extension_auto="0" />
+         <Option working_dir="/home/piotr/MultiThreadingCpp11/10/10_1" />
          <Option object_output="./" />
          <Option type="1" />
          <Option compiler="gcc" />
@@ -67,27 +67,27 @@
             <Add directory="/usr/local/include" />
          </Compiler>
          <MakeCommands>
-            <Build command="/usr/bin/make -f &quot;/home/piotr/MultiThreading/10/10_1/Makefile&quot;  VERBOSE=1 10_1/fast" />
-            <CompileFile command="/usr/bin/make -f &quot;/home/piotr/MultiThreading/10/10_1/Makefile&quot;  VERBOSE=1 &quot;$file&quot;" />
-            <Clean command="/usr/bin/make -f &quot;/home/piotr/MultiThreading/10/10_1/Makefile&quot;  VERBOSE=1 clean" />
-            <DistClean command="/usr/bin/make -f &quot;/home/piotr/MultiThreading/10/10_1/Makefile&quot;  VERBOSE=1 clean" />
+            <Build command="/usr/bin/make -f &quot;/home/piotr/MultiThreadingCpp11/10/10_1/Makefile&quot;  VERBOSE=1 10_1/fast" />
+            <CompileFile command="/usr/bin/make -f &quot;/home/piotr/MultiThreadingCpp11/10/10_1/Makefile&quot;  VERBOSE=1 &quot;$file&quot;" />
+            <Clean command="/usr/bin/make -f &quot;/home/piotr/MultiThreadingCpp11/10/10_1/Makefile&quot;  VERBOSE=1 clean" />
+            <DistClean command="/usr/bin/make -f &quot;/home/piotr/MultiThreadingCpp11/10/10_1/Makefile&quot;  VERBOSE=1 clean" />
          </MakeCommands>
       </Target>
       <Target title="rebuild_cache">
-         <Option working_dir="/home/piotr/MultiThreading/10/10_1" />
+         <Option working_dir="/home/piotr/MultiThreadingCpp11/10/10_1" />
          <Option type="4" />
          <MakeCommands>
-            <Build command="/usr/bin/make -f &quot;/home/piotr/MultiThreading/10/10_1/Makefile&quot;  VERBOSE=1 rebuild_cache" />
-            <CompileFile command="/usr/bin/make -f &quot;/home/piotr/MultiThreading/10/10_1/Makefile&quot;  VERBOSE=1 &quot;$file&quot;" />
-            <Clean command="/usr/bin/make -f &quot;/home/piotr/MultiThreading/10/10_1/Makefile&quot;  VERBOSE=1 clean" />
-            <DistClean command="/usr/bin/make -f &quot;/home/piotr/MultiThreading/10/10_1/Makefile&quot;  VERBOSE=1 clean" />
+            <Build command="/usr/bin/make -f &quot;/home/piotr/MultiThreadingCpp11/10/10_1/Makefile&quot;  VERBOSE=1 rebuild_cache" />
+            <CompileFile command="/usr/bin/make -f &quot;/home/piotr/MultiThreadingCpp11/10/10_1/Makefile&quot;  VERBOSE=1 &quot;$file&quot;" />
+            <Clean command="/usr/bin/make -f &quot;/home/piotr/MultiThreadingCpp11/10/10_1/Makefile&quot;  VERBOSE=1 clean" />
+            <DistClean command="/usr/bin/make -f &quot;/home/piotr/MultiThreadingCpp11/10/10_1/Makefile&quot;  VERBOSE=1 clean" />
          </MakeCommands>
       </Target>
       </Build>
-      <Unit filename="/home/piotr/MultiThreading/10/10_1/main.cpp">
+      <Unit filename="/home/piotr/MultiThreadingCpp11/10/10_1/main.cpp">
          <Option target="10_1"/>
       </Unit>
-      <Unit filename="/home/piotr/MultiThreading/10/10_1/CMakeLists.txt">
+      <Unit filename="/home/piotr/MultiThreadingCpp11/10/10_1/CMakeLists.txt">
           <Option virtualFolder="CMake Files\" />
       </Unit>
    </Project>
