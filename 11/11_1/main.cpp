@@ -3,6 +3,8 @@
 #include <condition_variable>
 #include <queue>
 #include <memory>
+#include <thread>
+#include <future>
 using namespace std;
 
 namespace messaging
@@ -63,14 +65,90 @@ namespace messaging
         }
     };
 
+//#define dispather_stub
+#define TemplateDispatcher_stub
+
+    class close_queue{}; //Message closing queue
+
+#ifdef dispather_stub
     //Stub for dispatcher
     class dispatcher
     {
     public:
         dispatcher(queue *) {
-            cout << "Dispatcher stub called" << endl;
+            cout << "Stub dispatcher called" << endl;
         }
     };
+#else //dispather_stub
+#ifdef TemplateDispatcher_stub
+    //Stub for TemplateDispatcher
+    template<typename Dispatcher, typename Msg, typename Func>
+    class TemplateDispatcher {
+        TemplateDispatcher() {
+            cout << "Stub TemplateDispatcher called" << endl;
+        }
+    };
+#else //TemplateDispatcher_stub
+
+#endif //TemplateDispatcher_stub
+
+    class dispatcher
+    {
+        queue * q;
+        bool chained;
+
+        //Can not copy dispatcher instances.
+        dispatcher(dispatcher const &) = delete;
+        dispatcher & operator=(dispatcher const &) = delete;
+
+        //Instances of template TemplateDispatcher have access to
+        //private dispatcher elements.
+        template<typename Dispatcher, typename Msg, typename Func>
+        friend class TemplateDispatcher;
+
+        //Check is message is type of close queue and if yes throw exception.
+        bool dispatch(shared_ptr<message_base> const & msg) {
+            cout << "dispatch called" << endl;
+            if(dynamic_cast<wrapped_message<close_queue>*>(msg.get())) {
+                cout << "Sended close_queue" << endl;
+                throw close_queue();
+            }
+            return false;
+        }
+
+        //Wait for messages and route them.
+        void wait_and_dispatch() {
+            while(1) {
+                auto msg = q->wait_and_pop();
+                dispatch(msg);
+            }
+        }
+
+    public:
+        //Instances of dispatcher can be moved.
+        dispatcher(dispatcher && other) : q(other.q), chained(other.chained) {
+            other.chained = true;   //Source cant wait for messages.
+        }
+
+        explicit dispatcher(queue * q_) : q(q_), chained(false) {
+            cout << "Valid dispatcher called" << endl;
+        }
+
+        //Delegate function f and queue to new instance of TemplateDispatcher
+        //which would be responsible for handling messege this type.
+        template<typename Msg, typename Func>
+        TemplateDispatcher<dispatcher, Msg, Func>
+        handle(Func && f) {
+            return TemplateDispatcher<dispatcher, Msg, Func>(q, this, std::forward<Func>(f));
+        }
+
+        ~dispatcher() noexcept(false) {
+            if(!chained) {//If responsibility for handling messages was delegeted there is no
+                wait_and_dispatch();//longer need for this dispatcher to take care of messages.
+            }
+        }
+    };
+#endif //dispather_stub
 
     class receiver {
         queue q; //Receiver is an owner of queue.
@@ -104,12 +182,19 @@ int main()
     cout << "----- 2 ending -----" << endl;
 
     //--------------------------------3------------------------
-    messaging::receiver r3;
-    messaging::sender s3{r3};
-    messaging::dispatcher d3 = r3.wait();
-    s3.send(msgNaked);
+    try{
+        messaging::receiver r3;
+        messaging::sender s3{r3};
+        s3.send(msgNaked);
+        s3.send(messaging::close_queue());
+        //Object dispatcher d3 in this line is not needed.
+        messaging::dispatcher d3 = r3.wait();//1 solution
+        //Or even more proper because dispatcher is temporary object.
+        //auto fut = async(launch::async, &messaging::receiver::wait, &r3);//2 solution
+        //fut.get();//2 solution
+    } catch(messaging::close_queue & e) {
+        cout << "Catched close_queue" << endl;
+    }
     cout << "----- 3 ending -----" << endl;
-
-    return 0;
 }
 
