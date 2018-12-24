@@ -5,8 +5,11 @@
 #include <memory>
 #include <thread>
 #include <future>
+#include <functional>
 using namespace std;
 
+
+//Framework start
 namespace messaging
 {
     struct message_base //Base class for keeping all mesages in queue
@@ -66,9 +69,8 @@ namespace messaging
     };
 
 //#define dispather_stub
-#define TemplateDispatcher_stub
-
-    class close_queue{}; //Message closing queue
+//#define TemplateDispatcher_stub
+class close_queue{}; //Message closing queue
 
 #ifdef dispather_stub
     //Stub for dispatcher
@@ -83,13 +85,71 @@ namespace messaging
 #ifdef TemplateDispatcher_stub
     //Stub for TemplateDispatcher
     template<typename Dispatcher, typename Msg, typename Func>
-    class TemplateDispatcher {
+    class TemplateDispatcher
+    {
         TemplateDispatcher() {
             cout << "Stub TemplateDispatcher called" << endl;
         }
     };
 #else //TemplateDispatcher_stub
+    template<typename PreviousDispatcher, typename Msg, typename Func>
+    class TemplateDispatcher
+    {
+        queue * q;
+        bool chained;
+        PreviousDispatcher * prev;
+        Func f;
 
+        //Different dispacher objects are friends to each other.
+        template<typename Dispatcher, typename OtherMsg, typename OtherFunc>
+        friend class TemplateDispatcher;
+
+        //Can not copy dispatcher instances.
+        TemplateDispatcher(TemplateDispatcher const &) = delete;
+        TemplateDispatcher & operator=(TemplateDispatcher const &) = delete;
+
+
+        //Wait for messages and route them.
+        void wait_and_dispatch() {
+            while(1) {
+                auto msg = q->wait_and_pop();
+                if(dispatch(msg)) break;
+            }
+        }
+
+        //Check is message is type of close queue and if yes throw exception.
+        bool dispatch(shared_ptr<message_base> const & msg) {
+            cout << "dispatch called" << endl;
+            //Cast to child class, check type of message and call function.
+            if(wrapped_message<Msg> * wrapper = dynamic_cast<wrapped_message<Msg>*>(msg.get())) {
+                f(wrapper->contents);
+                return true;
+            }
+            return prev->dispatch(msg);//Send back to previous dispatcher.
+        }
+    public:
+        TemplateDispatcher(TemplateDispatcher && other) :
+            q(other.q), prev(other.prev), f(move(other.f)), chained(other.chained) {
+            other.chained = true;
+        }
+
+        TemplateDispatcher(queue * q_, PreviousDispatcher * prev_, Func && f_) :
+            q(q_), prev(prev_), f(std::forward<Func>(f_)), chained(false) {
+               prev_->chained = true;
+        }
+
+        template<typename OtherMsg, typename OtherFunc>
+        TemplateDispatcher<TemplateDispatcher, OtherMsg, OtherFunc>
+        handle(OtherFunc && of) {
+            return TemplateDispatcher<TemplateDispatcher, OtherMsg, OtherFunc>(q, this, std::forward<OtherFunc>(of));
+        }
+
+        ~TemplateDispatcher() noexcept(false) {
+            if(!chained) {
+                wait_and_dispatch();
+            }
+        }
+    };
 #endif //TemplateDispatcher_stub
 
     class dispatcher
@@ -162,7 +222,10 @@ namespace messaging
         }
     };
 }
+//Framework end
 
+//Bankomat start
+//Bankomat end
 
 int main()
 {
@@ -197,4 +260,3 @@ int main()
     }
     cout << "----- 3 ending -----" << endl;
 }
-
